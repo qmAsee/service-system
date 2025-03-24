@@ -1,0 +1,10 @@
+.managers_page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    .managers_title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+}

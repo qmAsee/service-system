@@ -1,0 +1,16 @@
+.rating_cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+} 
+
+.restaurants_title {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.restaurants_page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}

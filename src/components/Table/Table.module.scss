@@ -1,0 +1,56 @@
+.table {
+    width: 100%;
+    border-bottom: 1px solid black; /* Черная граница внизу таблицы */
+  }
+  
+  .tr {
+    display: flex;
+    width: 100%;
+    border-top: 1px solid rgb(187, 187, 187); /* Серые границы между строками */
+  }
+
+  .tr:nth-child(2) {
+    border-top: none;
+  } 
+  
+  .tr:first-child {
+    border-top: none; /* Убираем границу над заголовками */
+    border-bottom: 1px solid black; /* Черная граница под заголовками */
+  }
+  
+  .tr:last-child {
+    border-bottom: none; /* Граница снизу уже есть у `.table` */
+  }
+
+  
+  .th,
+  .td {
+    flex: 1;
+    display: flex;
+    padding: 0.5rem;
+    font-size: 16px;
+  }
+  
+  /* Заголовки */
+  .th {
+    justify-content: flex-end; /* Заголовки по правому краю */
+    width: 100%;
+  }
+  
+  /* Выравнивание текста в первой колонке слева */
+  .th:first-child, .td:first-child {
+    justify-content: flex-start; /* Текст в первой колонке слева */
+    text-align: left;
+  }
+  
+  /* Остальные ячейки остаются справа */
+  .td {
+    justify-content: flex-end;
+    text-align: right;
+  }
+  
+  /* Текст в ячейках */
+  .td p {
+    width: 100%;
+  }
+  

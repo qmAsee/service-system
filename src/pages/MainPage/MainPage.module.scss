@@ -1,0 +1,73 @@
+.mainpage_section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 40px;
+
+    .mainpage_title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .mainpage_info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        height: 100%;
+
+        .mainpage_stats {
+            padding: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            &:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 3%; // Начало линии (20% от верха)
+                bottom: 3%; // Конец линии (20% от низа)
+                right: 0; // Привязка к правому краю
+                width: 1px; // Толщина линии
+                background-color: #ccc; // Цвет линии
+            }
+              
+            .mainpage_stat_title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            }
+
+            .mainpage_stat_block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+                .mainpage_stat_list_element {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 7px;
+                }
+
+                .mainpage_stat_fail_percent {
+                    font-size: 12px;
+                    color: rgb(128, 128, 128)
+                }
+
+                .mainpage_stat_question {
+                    color: rgb(97, 97, 209)
+                }
+            }
+
+            .mainpage_stat_strip {
+                width: 90%;
+                height: 20px;
+                border-radius: 5px;
+                overflow: hidden;
+                display: grid;
+                grid-template-columns: 5fr 2fr;
+            }
+              
+        }
+    }
+}
