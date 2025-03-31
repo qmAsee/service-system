@@ -94,104 +94,106 @@ export const CreateTestPage = () => {
           className={styles.popup_overlay}
           onClick={handleOverlayClick}
         >
-          <div className={styles.popup_content}>
-            <h2>Добавить вопрос</h2>
-            <div className={styles.popup_question}>
-              <h3 className={styles.popup_content_title}>Вопрос</h3>
-              <textarea placeholder='Напишите вопрос' />
-            </div>
-            <div className={styles.popup_image}>
-              <h3 className={styles.popup_content_title}>Изображение</h3>
-              <div className={styles.popup_image_block}>
-                <input 
-                  type="file" 
-                  id="file-input" 
-                  ref={fileInputRef}
-                  className="hidden" 
-                  accept="image/*" 
-                  onChange={handleImageUpload}
-                />
-                {imagePreview ? (
-                  <div className={styles.image_preview_container}>
-                    <img 
-                      src={imagePreview} 
-                      alt="Preview" 
-                      className={styles.image_preview}
+            <div className={styles.popup_content}>
+              <form>
+                <h2>Добавить вопрос</h2>
+                <div className={styles.popup_question}>
+                  <h3 className={styles.popup_content_title}>Вопрос</h3>
+                  <textarea placeholder='Напишите вопрос' />
+                </div>
+                <div className={styles.popup_image}>
+                  <h3 className={styles.popup_content_title}>Изображение</h3>
+                  <div className={styles.popup_image_block}>
+                    <input 
+                      type="file" 
+                      id="file-input" 
+                      ref={fileInputRef}
+                      className="hidden" 
+                      accept="image/*" 
+                      onChange={handleImageUpload}
                     />
-                    <div className={styles.popup_image_btn}>
-                      <button onClick={resetImage}>
-                        <RefreshCcw size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
-                      </button>
-                      <button onClick={resetImage}>
-                        <Trash size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
-                      </button>
+                    {imagePreview ? (
+                      <div className={styles.image_preview_container}>
+                        <img 
+                          src={imagePreview} 
+                          alt="Preview" 
+                          className={styles.image_preview}
+                        />
+                        <div className={styles.popup_image_btn}>
+                          <button onClick={resetImage}>
+                            <RefreshCcw size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
+                          </button>
+                          <button onClick={resetImage}>
+                            <Trash size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <button 
+                          className={styles.popup_upload_btn}
+                          onClick={triggerFileInput}
+                        >
+                          <ArrowUpFromLine size={28} color="rgb(224, 222, 222)" strokeWidth={4} />
+                          Прикрепить
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.popup_time}>
+                  <h3 className={styles.popup_content_title}>Время на ответ</h3>
+                  <div className={styles.container}>
+                    <div className={styles.time_display}>
+                      <div className={styles.hours_controls}>
+                        <button
+                          className={styles.arrow_btn_up}
+                          onClick={() => updateTime('hours', 'up')}
+                        />
+                        <div className={styles.time_part}>{formatTime(hours)}</div>
+                        <button
+                          className={styles.arrow_btn_up_down}
+                          onClick={() => updateTime('hours', 'down')}
+                        />
+                      </div>
+                      <div className={styles.colon}>:</div>
+                      <div className={styles.minutes_controls}>
+                        <button
+                          className={styles.arrow_btn_up}
+                          onClick={() => updateTime('minutes', 'up')}
+                        />
+                        <div className={styles.time_part}>{formatTime(minutes)}</div>
+                        <button
+                          className={styles.arrow_btn_up_down}
+                          onClick={() => updateTime('minutes', 'down')}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <>
-                    <button 
-                      className={styles.popup_upload_btn}
-                      onClick={triggerFileInput}
-                    >
-                      <ArrowUpFromLine size={28} color="rgb(224, 222, 222)" strokeWidth={4} />
-                      Прикрепить
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className={styles.popup_time}>
-              <h3 className={styles.popup_content_title}>Время на ответ</h3>
-              <div className={styles.container}>
-                <div className={styles.time_display}>
-                  <div className={styles.hours_controls}>
-                    <button
-                      className={styles.arrow_btn_up}
-                      onClick={() => updateTime('hours', 'up')}
-                    />
-                    <div className={styles.time_part}>{formatTime(hours)}</div>
-                    <button
-                      className={styles.arrow_btn_up_down}
-                      onClick={() => updateTime('hours', 'down')}
-                    />
-                  </div>
-                  <div className={styles.colon}>:</div>
-                  <div className={styles.minutes_controls}>
-                    <button
-                      className={styles.arrow_btn_up}
-                      onClick={() => updateTime('minutes', 'up')}
-                    />
-                    <div className={styles.time_part}>{formatTime(minutes)}</div>
-                    <button
-                      className={styles.arrow_btn_up_down}
-                      onClick={() => updateTime('minutes', 'down')}
+                    <input
+                      type="text"
+                      value={`${formatTime(hours)}:${formatTime(minutes)}`}
+                      readOnly
+                      hidden
                     />
                   </div>
                 </div>
-                <input
-                  type="text"
-                  value={`${formatTime(hours)}:${formatTime(minutes)}`}
-                  readOnly
-                  hidden
-                />
-              </div>
+                <div className={styles.popup_variants}>
+                  <h3 className={styles.popup_content_title}>Варианты ответа</h3>
+                  {answerVariants.map((el, index) => (
+                    <AnswerVariant
+                      key={index}
+                      onDelete={() => deleteAnswerVariant(index)}
+                    />
+                  ))}
+                </div>
+                <div className={styles.popup_variants_btn}>
+                  <button onClick={addAnswerVariant}>
+                    <Plus size={14} />
+                    Добавить ответ
+                  </button>
+                </div>
+              </form>
             </div>
-            <div className={styles.popup_variants}>
-              <h3 className={styles.popup_content_title}>Варианты ответа</h3>
-              {answerVariants.map((el, index) => (
-                <AnswerVariant
-                  key={index}
-                  onDelete={() => deleteAnswerVariant(index)}
-                />
-              ))}
-            </div>
-            <div className={styles.popup_variants_btn}>
-              <button onClick={addAnswerVariant}>
-                <Plus size={14} />
-                Добавить ответ
-              </button>
-            </div>
-          </div>
         </div>
       )}
       <section className={styles.create_test}>
