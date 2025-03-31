@@ -11,7 +11,8 @@ import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
 import { CreateTestPage } from "./pages/CreateTestPage/CreateTestPage.jsx"
 import { ChakraUIProvider } from "./components/ui/provider.jsx"
-
+import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
+import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
               <Route path="managers" element={<ManagersPage />} />
               <Route path="employees" element={<EmployeesPage />} />
               <Route path="positions" element={<PositionsPage />} />
+              <Route path="courses">
+                <Route index element={<CoursesPage />} />
+                <Route path=":courseId" element={<CourseDetailPage />} />
+              </Route>
               <Route path="createTest" element={<CreateTestPage />} /> 
               </Route>
           </Routes>
