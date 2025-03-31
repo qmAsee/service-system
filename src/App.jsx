@@ -22,7 +22,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<MainLayout />}>
-              <Route path="main" element={<MainPage />} />
+              <Route path="dashboard" element={<MainPage />} />
               <Route path="restaurants" element={<RestaurantsPage />} />
               <Route path="managers" element={<ManagersPage />} />
               <Route path="employees" element={<EmployeesPage />} />
