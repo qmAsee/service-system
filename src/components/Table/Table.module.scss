@@ -1,12 +1,13 @@
 .table {
     width: 100%;
-    border-bottom: 1px solid black; /* Черная граница внизу таблицы */
+    border-bottom: 1px solid rgb(170, 170, 170); /* Черная граница под заголовками */
   }
   
   .tr {
     display: flex;
     width: 100%;
-    border-top: 1px solid rgb(187, 187, 187); /* Серые границы между строками */
+    border-top: 1px solid rgb(224, 224, 224); /* Серые границы между строками */
+    padding: 10px 0;
   }
 
   .tr:nth-child(2) {
@@ -15,7 +16,8 @@
   
   .tr:first-child {
     border-top: none; /* Убираем границу над заголовками */
-    border-bottom: 1px solid black; /* Черная граница под заголовками */
+    border-bottom: 1px solid rgb(170, 170, 170); /* Черная граница под заголовками */
+    padding-bottom: 7px;
   }
   
   .tr:last-child {
@@ -28,19 +30,24 @@
     flex: 1;
     display: flex;
     padding: 0.5rem;
-    font-size: 16px;
+    font-size: 14px;
   }
   
   /* Заголовки */
   .th {
     justify-content: flex-end; /* Заголовки по правому краю */
     width: 100%;
+    font-size: 10px;
+    color: rgb(160, 160, 160);
+    padding: 0;
+    font-weight: 600;
   }
   
   /* Выравнивание текста в первой колонке слева */
   .th:first-child, .td:first-child {
     justify-content: flex-start; /* Текст в первой колонке слева */
     text-align: left;
+    padding-left: 0;
   }
   
   /* Остальные ячейки остаются справа */

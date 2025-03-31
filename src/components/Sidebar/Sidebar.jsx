@@ -25,7 +25,7 @@ export const Sidebar = React.memo(() => {
       <div className={styles.sidebar_section}>
         <h2 className={styles.sidebar_section_title}>СТРУКТУРА</h2>
         <ul className={styles.sidebar_links}>
-          <SidebarLink to="/main">Главная</SidebarLink>
+          <SidebarLink to="/dashboard">Главная</SidebarLink>
           <SidebarLink to="/restaurants">Рестораны</SidebarLink>
           <SidebarLink to="/managers">Управляющие</SidebarLink>
           <SidebarLink to="/employees">Сотрудники</SidebarLink>
