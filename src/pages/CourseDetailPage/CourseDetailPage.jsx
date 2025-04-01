@@ -92,9 +92,9 @@ const CourseDetailPage = () => {
         return <h1>Загрузка...</h1>;
     }
 
-    const loglog = () => {
-        console.log(course);
-    };
+    // const loglog = () => {
+    //     console.log(course);
+    // };
 
     return (
         <>
@@ -272,14 +272,13 @@ const CourseDetailPage = () => {
                                     <ArrowUpToLine size={15} />
                                     Экспорт уроков и тестов
                                 </Button>
-                                <Button onClick={loglog}>loglog</Button>
                             </div>
                         </div>
                         <Table data={combinedData} columns={columns}/>
                     </div>
                 </>
             ) : (
-                <button onClick={loglog}>Log</button>
+                <span>Загрузка...</span>
             )}
         </>
     );

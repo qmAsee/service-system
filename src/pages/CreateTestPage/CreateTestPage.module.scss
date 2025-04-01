@@ -20,6 +20,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px 20px 0 30px;
+
   &_title {
     font-size: 24px;
     font-weight: 600;
@@ -116,6 +118,8 @@
   display: flex;
   align-items: center;
   gap: 30px;
+  padding: 20px 20px 0 30px;
+
 
   .create_test_add_question_btn {
     display: flex;
@@ -179,6 +183,7 @@
   z-index: 1000;
   animation: fadeIn 0.3s;
   overflow-y: scroll;
+  padding: 20px 0;
 }
 
 /* Контент popup */

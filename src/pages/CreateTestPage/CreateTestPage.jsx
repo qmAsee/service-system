@@ -197,14 +197,7 @@ export const CreateTestPage = () => {
         </div>
       )}
       <section className={styles.create_test}>
-        <nav className={styles.create_test_nav}>
-          <ul className={styles.create_test_nav_list}>
-            <li>Курсы</li>
-            <MoveRight color="rgb(165, 163, 163)" />
-            <li>Welcome to The Fresh Bowl</li>
-            <MoveRight color="rgb(165, 163, 163)" />
-          </ul>
-        </nav>
+        
         <div className={styles.create_test_settings}>
         <h1 className={styles.create_test_settings_title}>Название теста</h1>
         <div 
