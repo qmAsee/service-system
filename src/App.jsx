@@ -10,6 +10,10 @@ import { ManagersPage } from './pages/ManagersPage/ManagersPage.jsx';
 import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
 import { CreateTestPage } from "./pages/CreateTestPage/CreateTestPage.jsx"
+import { CategoriesPage } from "./pages/CategoriesPage/CategoriesPage.jsx"
+import { CategoryDetailsPage } from "./pages/CategoryDetailsPage/CategoryDetailsPage.jsx"
+import { SubcategoryPage } from "./pages/SubcategoryPage/SubcategoryPage.jsx"
+
 import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
@@ -32,8 +36,14 @@ function App() {
                 <Route path=":courseId" element={<CourseDetailPage />} />
                 <Route path=":courseId/create_test" element={<CreateTestPage />} />
               </Route>
-              {/* <Route path="createTest" element={<CreateTestPage />} />  */}
+              <Route path="createTest" element={<CreateTestPage />} />
+              <Route path="categories">
+                <Route index element={<CategoriesPage />} />
+                <Route path=":categoryId" element={<CategoryDetailsPage />}/>
+                <Route path=":categoryId/subcategories/:subcategoryId" element={<SubcategoryPage />} />
+           
               </Route>
+            </Route>
           </Routes>
         </Router>
     </Provider>

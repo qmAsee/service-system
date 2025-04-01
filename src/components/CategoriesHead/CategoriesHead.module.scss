@@ -1,0 +1,22 @@
+.categories_head {
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.categories_head_filter {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    span {
+        font-size: 10px;
+        color: rgb(128, 128, 128);
+    }
+
+}
+.categories_head_templates {
+    cursor: pointer;
+    font-weight: 500;
+    color: rgb(97, 97, 209);
+}
