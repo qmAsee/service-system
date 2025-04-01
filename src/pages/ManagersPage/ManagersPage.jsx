@@ -29,11 +29,9 @@ const managerColumns = [
 export const ManagersPage = () => {
   const [data, setData] = useState(mockManagersTableData)
   return (
-    <>
-      <div className={styles.managers_page}>
+      <section className={styles.managers_page}>
         <h1 class={styles.managers_title}>Управляющие</h1>
         <Table data={data} columns={managerColumns}/>
-      </div>
-    </>
+      </section>
   )
 }

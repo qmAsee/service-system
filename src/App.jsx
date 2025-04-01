@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import 'antd/dist/reset.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
@@ -10,7 +10,6 @@ import { ManagersPage } from './pages/ManagersPage/ManagersPage.jsx';
 import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
 import { CreateTestPage } from "./pages/CreateTestPage/CreateTestPage.jsx"
-import { ChakraUIProvider } from "./components/ui/provider.jsx"
 import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
@@ -19,7 +18,6 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ChakraUIProvider>
         <Router>
           <Routes>
             <Route path="/" element={<MainLayout />}>
@@ -31,12 +29,12 @@ function App() {
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
+                <Route path=":courseId/create_test" element={<CreateTestPage />} />
               </Route>
-              <Route path="createTest" element={<CreateTestPage />} /> 
+              {/* <Route path="createTest" element={<CreateTestPage />} />  */}
               </Route>
           </Routes>
         </Router>
-      </ChakraUIProvider>
     </Provider>
   )
 }

@@ -15,13 +15,13 @@
         width: 100%;
         justify-content: space-between;
         margin-bottom: 15px;
-        padding: 0 20px;
-    
+        padding: 0 100px 0 20px;
+
         .courses_col_name {
             font-size: 12px;
         }
     }
-    
+
     .courses_wrapper {
         display: flex;
         flex-direction: column;
@@ -42,7 +42,7 @@
 
         .course:hover {
             background-color: rgb(247, 247, 247);
-            transition: background-color .1s ease-in-out;
+            transition: background-color 0.1s ease-in-out;
         }
 
         .course_level_title {
@@ -55,25 +55,16 @@
             display: flex;
             flex-direction: column;
             max-width: 30%;
-            gap: 5px;            
+            gap: 5px;
 
             .course_description {
                 font-size: 12px;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 100%; /* Ограничиваем ширину */
                 word-wrap: break-word;
                 color: rgb(110, 110, 110);
             }
-
         }
-
-        
-
-    
     }
 }
-
