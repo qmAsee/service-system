@@ -30,7 +30,7 @@ export const ManagersPage = () => {
   const [data, setData] = useState(mockManagersTableData)
   return (
       <section className={styles.managers_page}>
-        <h1 class={styles.managers_title}>Управляющие</h1>
+        <h1 className={styles.managers_title}>Управляющие</h1>
         <Table data={data} columns={managerColumns}/>
       </section>
   )

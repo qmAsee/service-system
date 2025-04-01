@@ -25,10 +25,10 @@ const columns = [
     header: "УСПЕВАЕМОСТЬ",
     cell: (props) => {
       return (
-        <p className={styles.rating_cell}>
+        <div className={styles.rating_cell}>
           <StarRating totalStars={3} />
           {props.getValue()}
-        </p>
+        </div>
       );
     },
   },
@@ -50,7 +50,7 @@ export const RestaurantsPage = () => {
   return (
     <>
       <section className={styles.restaurants_page}>
-        <h1 class={styles.restaurants_title}>Рестораны</h1>
+        <h1 className={styles.restaurants_title}>Рестораны</h1>
         <Table data={data} columns={columns} />
       </section>
     </>

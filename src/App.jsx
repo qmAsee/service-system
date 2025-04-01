@@ -1,5 +1,5 @@
 import 'antd/dist/reset.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 import './App.css'
@@ -15,6 +15,7 @@ import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
+  
 
   return (
     <Provider store={store}>

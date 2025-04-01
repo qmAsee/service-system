@@ -4,6 +4,7 @@ import styles from './MainLayout.module.scss'
 import { Sidebar } from '../../components/Sidebar/Sidebar';
 
 export const MainLayout = () => {
+
   return (
     <div className={styles.main_layout}>
         <Sidebar />
