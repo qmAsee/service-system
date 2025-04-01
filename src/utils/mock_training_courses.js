@@ -17,6 +17,7 @@ export const new_mock_training_courses = [
         lessons: [
             {
                 id: "lesson_001",
+                type: "lesson",
                 title: "Введение в обслуживание гостей",
                 image: lesson_guest_service,
                 blocks: [
@@ -41,6 +42,7 @@ export const new_mock_training_courses = [
             },
             {
                 id: "lesson_002",
+                type: "lesson",
                 title: "Работа с заказами",
                 image: lesson_order,
                 blocks: [
@@ -152,6 +154,7 @@ export const new_mock_training_courses = [
         lessons: [
             {
                 id: "lesson_003",
+                type: "lesson",
                 title: "Основы гигиены",
                 image: lesson_handwash,
                 blocks: [

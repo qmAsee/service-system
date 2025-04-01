@@ -17,7 +17,7 @@ const SidebarLink = React.memo(({ to, children }) => {
 
 export const Sidebar = React.memo(() => {
   return (
-    <nav className={styles.sidebar}>
+    <aside className={styles.sidebar}>
       <div className={styles.sidebar_logo}>
         <SidebarLink to="/">LOGO</SidebarLink>
       </div>
@@ -63,6 +63,6 @@ export const Sidebar = React.memo(() => {
           <SidebarLink to="/">Мотивация</SidebarLink>
         </ul>
       </div>
-    </nav>
+    </aside>
   );
 });

@@ -1,0 +1,133 @@
+header {
+    padding: 20px 0 0 20px;
+
+
+    .course_title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .course_nav {
+        display: flex;
+
+        .course_navlink {
+            padding-bottom: 5px;
+        }
+
+        .course_navlink_active {
+            border-bottom: 2px solid #797997;
+            color: #797997;
+        }
+    }
+}
+
+.course_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 40px 20px 20px 20px;
+    box-sizing: border-box;
+    background-color: rgb(231, 231, 231);
+
+    .course_general {
+        .course_general_box {
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            height: 400px;
+
+            .course_general_part {
+                display: flex;
+                flex-direction: column;
+                width:50%;
+                height: 100%;
+
+                
+    
+                .course_image {
+                    width: 300px;
+                }
+
+                .course_textarea {
+                    width: 50%;
+                    height: 100%;
+                    border: 1px solid rgb(182, 182, 182);
+                    padding: 8px;
+                }
+
+                .course_difficulty {
+                    margin-bottom: 30px;
+                }
+            }
+
+            
+        }
+    }
+
+    .course_responsibilities {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+        margin-bottom: 30px;
+
+        .course_responsibility {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            width: 50%;
+            border: 1px solid rgb(214, 214, 214);
+        }
+    }
+
+    .course_table_header {
+        display: flex;
+        justify-content: space-between;
+
+        .course_table_header_buttons {
+            display: flex;
+            gap: 10px;
+        }
+    }
+}
+
+.button {
+    border-radius: 3px !important;
+    padding: 0 20px;
+    font-size: 16px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .buttonNotChecked {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+  
+  .buttonChecked {
+    background-color: #9b9b9b !important;
+    color: #fff;
+    border-color: #9b9b9b !important;
+  }
+  
+  .buttonNotChecked:hover {
+    background-color: #e2e2e2 !important;
+    color: unset;
+  }
+  
+  .buttonChecked:hover {
+    background-color: unset;
+  }
+
+  .course_section_title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.course_general_title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

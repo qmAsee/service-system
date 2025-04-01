@@ -49,10 +49,10 @@ export const RestaurantsPage = () => {
 
   return (
     <>
-      <div className={styles.restaurants_page}>
+      <section className={styles.restaurants_page}>
         <h1 class={styles.restaurants_title}>Рестораны</h1>
         <Table data={data} columns={columns} />
-      </div>
+      </section>
     </>
   );
 };

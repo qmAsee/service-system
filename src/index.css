@@ -10,6 +10,7 @@
  */
  #root {
   height: 100vh;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
   
   /* chakraui theme overrides */
   background-color: white !important;
@@ -19,7 +20,7 @@
  html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
 }
 
 main {
@@ -176,8 +177,7 @@ img {
 button,
 input,
 optgroup,
-select,
-textarea {
+select {
   font-family: inherit; /* 1 */
   font-size: 100%; /* 1 */
   line-height: 1.15; /* 1 */
