@@ -83,8 +83,6 @@ export const CategoriesNav = () => {
           shape="circle"
           icon={<PlusOutlined />}
           size="large"
-          className={styles.categories_contant_btn}
-          
         />
       </div>
     </nav>
