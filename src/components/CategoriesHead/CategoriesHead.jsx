@@ -3,8 +3,6 @@ import styles from './CategoriesHead.module.scss';
 import { ConfigProvider, Switch } from 'antd';
 import { Search } from "lucide-react";
 
-
-
 export const CategoriesHead = () => {
   const [checked, setChecked] = React.useState(false);
   return (
