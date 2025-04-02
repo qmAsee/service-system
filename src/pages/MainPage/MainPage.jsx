@@ -8,12 +8,12 @@ import { StarRating } from '../../components/StarRating/StarRating'
 export const MainPage = () => {
   return (
     <>
-      <section className={styles.mainpage_section}>
+      <div className={styles.mainpage_section}>
         <h1 className={styles.mainpage_title}>Главная</h1>
-        <div>
+        <section>
           <img src={graph}/>
-        </div>
-        <article className={styles.mainpage_info}>
+        </section>
+        <section className={styles.mainpage_info}>
           <div className={styles.mainpage_stats}>
             <div className={styles.mainpage_stats_block}>
               <h2 className={styles.mainpage_stat_title}>Статистика</h2>
@@ -160,8 +160,8 @@ export const MainPage = () => {
               </li>
             </ul>
           </div>
-        </article>
-      </section>
+        </section>
+      </div>
     </>
   )
 }

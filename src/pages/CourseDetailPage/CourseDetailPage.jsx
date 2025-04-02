@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CourseDetailPage.module.scss";
 
-import { Radio, Space, Button } from "antd";
+import { Radio, Space, Button, Input } from "antd";
 
 import { Link, NavLink, useParams } from "react-router-dom";
 import { new_mock_training_courses } from "../../utils/mock_training_courses";
@@ -195,10 +195,11 @@ const CourseDetailPage = () => {
                                     <h3 className={styles.course_section_title}>
                                         Описание курса
                                     </h3>
-                                    <textarea
+                                    <Input.TextArea
                                         value={course.description}
                                         className={styles.course_textarea}
-                                    ></textarea>
+                                    >
+                                    </Input.TextArea>
                                 </div>
                             </div>
                         </article>

@@ -16,6 +16,8 @@ import { SubcategoryPage } from "./pages/SubcategoryPage/SubcategoryPage.jsx"
 
 import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
+
+import { ConfigProvider } from 'antd';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
@@ -23,6 +25,17 @@ function App() {
 
   return (
     <Provider store={store}>
+      <ConfigProvider theme={{
+        components: {
+          Button: {
+            colorPrimary: "#2eb03f",
+            colorPrimaryHover: "#22802f",
+            colorPrimaryActive: "#22802f",
+            defaultHoverBorderColor: "#9e9e9e",
+            defaultHoverColor: "black"
+          }
+        }
+      }}>
         <Router>
           <Routes>
             <Route path="/" element={<MainLayout />}>
@@ -46,6 +59,7 @@ function App() {
             </Route>
           </Routes>
         </Router>
+      </ConfigProvider>
     </Provider>
   )
 }

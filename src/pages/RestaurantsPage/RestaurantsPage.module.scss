@@ -1,17 +1,87 @@
-.rating_cell {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-} 
-
-.restaurants_title {
-    font-size: 32px;
-    font-weight: bold;
-}
-
 .restaurants_page {
     display: flex;
     flex-direction: column;
-    gap: 40px;
     padding: 30px 30px 0 30px;
+
+    .rating_cell {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .restaurants_title {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .restaurants_page {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .header {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .actions_container {
+            display: flex;
+            gap: 10px;
+            height: 30px;
+
+            .add_button {
+                height: 100%;
+            }
+        }
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .form_title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .form_grid_wrapper {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        row-gap: 15px;
+        align-items: center;
+
+        .form_input {
+            width: 100%;
+        }
+
+        .phone_container {
+            display: flex;
+            gap: 5px;
+
+            .phone_select {
+                width: 50%;
+            }
+
+            .form_phone_input {
+                flex: 1;
+            }
+        }
+
+        .description_label {
+            align-self: flex-start;
+        }
+
+        .description {
+            border: 1px solid rgb(180, 180, 180);
+        }
+    }
+
+    .buttons_box {
+        display: flex;
+        justify-content: space-between;
+    }
 }
