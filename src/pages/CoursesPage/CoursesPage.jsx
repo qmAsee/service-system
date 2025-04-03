@@ -1,14 +1,34 @@
 import React, { useState } from 'react'
 import styles from './CoursesPage.module.scss'
 import {new_mock_training_courses} from '../../utils/mock_training_courses'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { Button } from 'antd'
+import {useSelector, useDispatch} from 'react-redux'
 
 const CoursesPage = () => {
-  const [courses, setCourses] = useState(new_mock_training_courses) 
+  const navigate = useNavigate();
+  const courses = useSelector((state) => state.courses.courses)
+
+  const handleAddCourse = () => {
+    const newCourseId = `course_${Date.now()}`;
+    const newCourse = {
+      id: newCourseId,
+      image: "",
+      title: "",
+      description: "",
+      completedLessons: 0,
+      completedTests: 0,
+      lessons: [],
+      tests: [],
+      difficulty: "базовый",
+    };
+    navigate(`/courses/${newCourseId}`, { state: { courseData: newCourse } });
+  };
   
   return (
     <section className={styles.courses_page}>
       <h1 className={styles.courses_title}>Учебные курсы</h1>
+      <Button type='primary' onClick={handleAddCourse}>Добавить курс</Button>
       <div>
         <div className={styles.courses_cols_names}>
           <span className={styles.courses_col_name}>УРОВЕНЬ</span>

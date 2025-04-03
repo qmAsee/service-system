@@ -1,7 +1,7 @@
 import 'antd/dist/reset.css';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store/store.js";
+import store from "./store/store.js";
 import './App.css'
 import { MainLayout } from './layouts/MainLayout/MainLayout.jsx';
 import { MainPage } from './pages/MainPage/MainPage.jsx';
@@ -48,7 +48,6 @@ function App() {
               <Route path="positions" element={<PositionsPage />} />
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
-                <Route path="new" element={<CreateCoursePage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
                 <Route path=":courseId/create_test" element={<CreateTestPage />} />
                 <Route path=":courseId/create_lesson" element={<CreateLessonPage />} />

@@ -13,8 +13,6 @@ export const CreateTestPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [answerVariants, setAnswerVariants] = useState([1, 2, 3, 4]);
-  // const [selectedImage, setSelectedImage] = useState(null);
-  // const [imagePreview, setImagePreview] = useState(null);
   // const fileInputRef = useRef(null);
 
   const closePopup = () => {
@@ -64,32 +62,6 @@ export const CreateTestPage = () => {
     }
   };
 
-  // const handleImageUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSelectedImage(file);
-  //     // Создаем превью изображения
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
-  // const triggerFileInput = () => {
-  //   fileInputRef.current.click();
-  // };
-
-  // const resetImage = () => {
-  //   setSelectedImage(null);
-  //   setImagePreview(null);
-  //   // Сброс значения input, чтобы можно было загрузить тот же файл снова
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.value = '';
-  //   }
-  // };
-
   return (
     <>
       {isPopupOpen && (
@@ -107,43 +79,7 @@ export const CreateTestPage = () => {
               <div className={styles.popup_image}>
                 <h3 className={styles.popup_content_title}>Изображение</h3>
                 <CreateAttachImg/>
-                {/* <div className={styles.popup_image_block}>
-                  <input
-                    type="file"
-                    id="file-input"
-                    ref={fileInputRef}
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                  {imagePreview ? (
-                    <div className={styles.image_preview_container}>
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className={styles.image_preview}
-                      />
-                      <div className={styles.popup_image_btn}>
-                        <button onClick={resetImage}>
-                          <RefreshCcw size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
-                        </button>
-                        <button onClick={resetImage}>
-                          <Trash size={24} color="rgb(224, 222, 222)" strokeWidth={1.5} />
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <button
-                        className={styles.popup_upload_btn}
-                        onClick={triggerFileInput}
-                      >
-                        <ArrowUpFromLine size={28} color="rgb(224, 222, 222)" strokeWidth={4} />
-                        Прикрепить
-                      </button>
-                    </>
-                  )}
-                </div> */}
+                
               </div>
               <div className={styles.popup_time}>
                 <h3 className={styles.popup_content_title}>Время на ответ</h3>

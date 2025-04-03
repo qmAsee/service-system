@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import coursesReducer from "./slices/courseSlice";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    // employees: employeesReducer,
+    courses: coursesReducer,
   },
 });
 
-// export type RootState = ReturnType<typeof store.getState>;
-// export type AppDispatch = typeof store.dispatch;
+export default store;
