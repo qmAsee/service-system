@@ -192,8 +192,13 @@ export const CreateLessonPage = () => {
     { icon: <AlignJustify size={26} />, label: "Глава", action: addNewChapter }
   ];
 
+  const loglog = () => {
+    console.log(contentBlocks);
+  }
+
   return (
     <section className={styles.create_lesson}>
+      <Button onClick={loglog}>loglog</Button>
       <CreateCourseHead placeholder={"Название урока"}/>
       <div className={styles.create_lesson_container}>
         <div className={styles.create_lesson_content}>

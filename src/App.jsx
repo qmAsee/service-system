@@ -19,6 +19,7 @@ import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 
 import { ConfigProvider } from 'antd';
+import CreateCoursePage from './pages/CreateCoursePage/CreateCoursePage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
               <Route path="positions" element={<PositionsPage />} />
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
+                <Route path="new" element={<CreateCoursePage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
                 <Route path=":courseId/create_test" element={<CreateTestPage />} />
                 <Route path=":courseId/create_lesson" element={<CreateLessonPage />} />
