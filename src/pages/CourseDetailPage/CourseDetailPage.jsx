@@ -245,14 +245,18 @@ const CourseDetailPage = () => {
                     + Тест
                   </Button>
                 </Link>
-                <Button
-                  style={{
-                    backgroundColor: "#2eb03f",
-                    color: "white",
-                  }}
+                <Link
+                  to={`/courses/${courseId}/create_open_test`}
                 >
-                  + Тест с открытым вопросом
-                </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#2eb03f",
+                      color: "white",
+                    }}
+                  >
+                    + Тест с открытым вопросом
+                  </Button>
+                </Link>
                 <Button
                   style={{
                     padding: "3px 10px",

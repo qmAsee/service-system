@@ -1,22 +1,31 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './CreateAttachImg.module.scss';
-import { Plus, Check, Trash, RefreshCcw, ArrowUpFromLine, MoveRight } from "lucide-react";
+import { Trash, RefreshCcw, ArrowUpFromLine } from "lucide-react";
 
-export const CreateAttachImg = ({ onImageChange }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+export const CreateAttachImg = ({ onImageUpload, currentImage }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
+  // Синхронизация с внешним состоянием (currentImage)
+  useEffect(() => {
+    if (currentImage) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(currentImage);
+    } else {
+      setImagePreview(null);
+    }
+  }, [currentImage]);
+
   const resetImage = () => {
-    setSelectedImage(null);
     setImagePreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-    if (onImageChange) {
-      onImageChange(null);
-    }
+    onImageUpload(null);
   };
 
   const handleImageUpload = (e) => {
@@ -27,13 +36,10 @@ export const CreateAttachImg = ({ onImageChange }) => {
   };
 
   const processImage = (file) => {
-    setSelectedImage(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
-      if (onImageChange) {
-        onImageChange(file);
-      }
+      onImageUpload(file);
     };
     reader.readAsDataURL(file);
   };
