@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './CreateCourseHead.module.scss';
 import { ConfigProvider, Switch } from 'antd';
 
-export const CreateCourseHead = ({ placeholder }) => {
+export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
   const [checked, setChecked] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(value);
+
+  // Синхронизируем внутреннее состояние с внешним значением
+  useEffect(() => {
+    setTitle(value);
+  }, [value]);
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    if (onChange) {
+      onChange(newTitle);
+    }
   };
 
   return (

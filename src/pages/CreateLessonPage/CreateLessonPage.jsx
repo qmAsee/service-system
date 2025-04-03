@@ -8,15 +8,20 @@ import { Button } from "antd";
 
 export const CreateLessonPage = () => {
   const [showContentMenu, setShowContentMenu] = useState(false);
-  const [contentBlocks, setContentBlocks] = useState([
-    { 
-      id: 1, 
-      type: 'chapter',
-      data: {
-        customTitle: '',
+  const [lesson, setLesson] = useState({
+    id: 1,
+    title: '',
+    blocks: [
+      { 
+        id: 1, 
+        type: 'chapter',
+        data: {
+          customTitle: '',
+        }
       }
-    }
-  ]);
+    ]
+  });
+
   const [activeBlockId, setActiveBlockId] = useState(1);
   const fileImageInputRef = useRef(null);
   const fileVideoInputRef = useRef(null);
@@ -25,25 +30,38 @@ export const CreateLessonPage = () => {
     setShowContentMenu(!showContentMenu);
   };
 
+  const updateLessonTitle = (newTitle) => {
+    setLesson({
+      ...lesson,
+      title: newTitle
+    });
+  };
+  console.log(lesson)
   const addNewChapter = () => {
-    const newId = contentBlocks.length > 0 ? Math.max(...contentBlocks.map(b => b.id)) + 1 : 1;
-    setContentBlocks([...contentBlocks, { 
-      id: newId, 
-      type: 'chapter',
-      data: {
-        customTitle: '',
-      }
-    }]);
+    const newId = lesson.blocks.length > 0 ? Math.max(...lesson.blocks.map(b => b.id)) + 1 : 1;
+    setLesson({
+      ...lesson,
+      blocks: [
+        ...lesson.blocks, 
+        { 
+          id: newId, 
+          type: 'chapter',
+          data: {
+            customTitle: '',
+          }
+        }
+      ]
+    });
     setActiveBlockId(newId);
     setShowContentMenu(false);
   };
 
   const addTextBlock = () => {
-    const newId = contentBlocks.length > 0 ? Math.max(...contentBlocks.map(b => b.id)) + 1 : 1;
+    const newId = lesson.blocks.length > 0 ? Math.max(...lesson.blocks.map(b => b.id)) + 1 : 1;
     
-    const activeIndex = contentBlocks.findIndex(b => b.id === activeBlockId);
+    const activeIndex = lesson.blocks.findIndex(b => b.id === activeBlockId);
     
-    const newBlocks = [...contentBlocks];
+    const newBlocks = [...lesson.blocks];
     newBlocks.splice(activeIndex + 1, 0, {
       id: newId,
       type: 'text',
@@ -52,17 +70,20 @@ export const CreateLessonPage = () => {
       }
     });
     
-    setContentBlocks(newBlocks);
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
     setActiveBlockId(newId);
     setShowContentMenu(false);
   };
 
   const addImageBlock = (imageUrl) => {
-    const newId = contentBlocks.length > 0 ? Math.max(...contentBlocks.map(b => b.id)) + 1 : 1;
+    const newId = lesson.blocks.length > 0 ? Math.max(...lesson.blocks.map(b => b.id)) + 1 : 1;
     
-    const activeIndex = contentBlocks.findIndex(b => b.id === activeBlockId);
+    const activeIndex = lesson.blocks.findIndex(b => b.id === activeBlockId);
     
-    const newBlocks = [...contentBlocks];
+    const newBlocks = [...lesson.blocks];
     newBlocks.splice(activeIndex + 1, 0, {
       id: newId,
       type: 'image',
@@ -71,17 +92,20 @@ export const CreateLessonPage = () => {
       }
     });
     
-    setContentBlocks(newBlocks);
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
     setActiveBlockId(newId);
     setShowContentMenu(false);
   };
 
   const addVideoBlock = (videoUrl) => {
-    const newId = contentBlocks.length > 0 ? Math.max(...contentBlocks.map(b => b.id)) + 1 : 1;
+    const newId = lesson.blocks.length > 0 ? Math.max(...lesson.blocks.map(b => b.id)) + 1 : 1;
     
-    const activeIndex = contentBlocks.findIndex(b => b.id === activeBlockId);
+    const activeIndex = lesson.blocks.findIndex(b => b.id === activeBlockId);
     
-    const newBlocks = [...contentBlocks];
+    const newBlocks = [...lesson.blocks];
     newBlocks.splice(activeIndex + 1, 0, {
       id: newId,
       type: 'video',
@@ -90,7 +114,10 @@ export const CreateLessonPage = () => {
       }
     });
     
-    setContentBlocks(newBlocks);
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
     setActiveBlockId(newId);
     setShowContentMenu(false);
   };
@@ -120,63 +147,80 @@ export const CreateLessonPage = () => {
   };
 
   const deleteBlock = (id) => {
-    if (contentBlocks.length <= 1) return;
+    if (lesson.blocks.length <= 1) return;
     
-    const newBlocks = contentBlocks.filter(block => block.id !== id);
-    setContentBlocks(newBlocks);
+    const newBlocks = lesson.blocks.filter(block => block.id !== id);
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
     
     if (activeBlockId === id) {
-      const index = contentBlocks.findIndex(block => block.id === id);
-      const newActiveId = index > 0 ? contentBlocks[index - 1].id : newBlocks[0]?.id;
+      const index = lesson.blocks.findIndex(block => block.id === id);
+      const newActiveId = index > 0 ? lesson.blocks[index - 1].id : newBlocks[0]?.id;
       if (newActiveId) setActiveBlockId(newActiveId);
     }
   };
 
   const updateChapterTitle = (id, newTitle) => {
-    setContentBlocks(contentBlocks.map(block => 
-      block.id === id && block.type === 'chapter' 
-        ? { ...block, data: { ...block.data, customTitle: newTitle } } 
-        : block
-    ));
+    setLesson({
+      ...lesson,
+      blocks: lesson.blocks.map(block => 
+        block.id === id && block.type === 'chapter' 
+          ? { ...block, data: { ...block.data, customTitle: newTitle } } 
+          : block
+      )
+    });
   };
 
   const updateTextContent = (id, newContent) => {
-    setContentBlocks(contentBlocks.map(block => 
-      block.id === id && block.type === 'text'
-        ? { ...block, data: { ...block.data, content: newContent } }
-        : block
-    ));
+    setLesson({
+      ...lesson,
+      blocks: lesson.blocks.map(block => 
+        block.id === id && block.type === 'text'
+          ? { ...block, data: { ...block.data, content: newContent } }
+          : block
+      )
+    });
   };
 
   const moveBlockUp = (id) => {
-    const index = contentBlocks.findIndex(block => block.id === id);
+    const index = lesson.blocks.findIndex(block => block.id === id);
     if (index <= 0) return;
     
-    const newBlocks = [...contentBlocks];
+    const newBlocks = [...lesson.blocks];
     [newBlocks[index], newBlocks[index - 1]] = [newBlocks[index - 1], newBlocks[index]];
-    setContentBlocks(newBlocks);
+    
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
   };
 
   const moveBlockDown = (id) => {
-    const index = contentBlocks.findIndex(block => block.id === id);
-    if (index >= contentBlocks.length - 1) return;
+    const index = lesson.blocks.findIndex(block => block.id === id);
+    if (index >= lesson.blocks.length - 1) return;
     
-    const newBlocks = [...contentBlocks];
+    const newBlocks = [...lesson.blocks];
     [newBlocks[index], newBlocks[index + 1]] = [newBlocks[index + 1], newBlocks[index]];
-    setContentBlocks(newBlocks);
+    
+    setLesson({
+      ...lesson,
+      blocks: newBlocks
+    });
   };
 
   const getBlockNumber = (block, index) => {
     if (block.type === 'chapter') {
       let chapterNumber = 1;
       for (let i = 0; i < index; i++) {
-        if (contentBlocks[i].type === 'chapter') chapterNumber++;
+        if (lesson.blocks[i].type === 'chapter') chapterNumber++;
       }
       return chapterNumber;
     } else if (block.type === 'text') {
       let textBlockNumber = 1;
       for (let i = 0; i < index; i++) {
-        if (contentBlocks[i].type === 'text') textBlockNumber++;
+        if (lesson.blocks[i].type === 'text') textBlockNumber++;
       }
       return textBlockNumber;
     }
@@ -198,8 +242,11 @@ export const CreateLessonPage = () => {
 
   return (
     <section className={styles.create_lesson}>
-      <Button onClick={loglog}>loglog</Button>
-      <CreateCourseHead placeholder={"Название урока"}/>
+      <CreateCourseHead 
+        placeholder={"Название урока"}
+        value={lesson.title}
+        onChange={(newTitle) => setLesson({...lesson, title: newTitle})}
+      />
       <div className={styles.create_lesson_container}>
         <div className={styles.create_lesson_content}>
           <h2>Содержание урока</h2>
@@ -225,7 +272,7 @@ export const CreateLessonPage = () => {
             style={{ display: 'none' }}
           />
           
-          {contentBlocks.map((block, index) => (
+          {lesson.blocks.map((block, index) => (
             <div 
               key={block.id}
               className={`${styles.create_lesson_content_block} ${
@@ -299,21 +346,21 @@ export const CreateLessonPage = () => {
                     e.stopPropagation();
                     moveBlockDown(block.id);
                   }}
-                  disabled={index === contentBlocks.length - 1}
+                  disabled={index === lesson.blocks.length - 1}
                   aria-label="Переместить вниз"
                 >
-                  <ArrowDown size={18} color={index === contentBlocks.length - 1 ? '#ccc' : 'rgb(201, 201, 201)'} />
+                  <ArrowDown size={18} color={index === lesson.blocks.length - 1 ? '#ccc' : 'rgb(201, 201, 201)'} />
                 </button>
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteBlock(block.id);
                   }}
-                  disabled={contentBlocks.length <= 1}
+                  disabled={lesson.blocks.length <= 1}
                   aria-label="Удалить блок"
                   className={styles.delete_btn}
                 >
-                  <Trash2 size={18} color={contentBlocks.length <= 1 ? '#ccc' : 'rgb(201, 201, 201)'} />
+                  <Trash2 size={18} color={lesson.blocks.length <= 1 ? '#ccc' : 'rgb(201, 201, 201)'} />
                 </button>
               </div>
             </div>
