@@ -10,6 +10,8 @@ import { ManagersPage } from './pages/ManagersPage/ManagersPage.jsx';
 import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
 import { CreateTestPage } from "./pages/CreateTestPage/CreateTestPage.jsx"
+import { CreateOpenTestPage } from "./pages/CreateOpenTestPage/CreateOpenTestPage.jsx"
+
 import { CreateLessonPage } from "./pages/CreateLessonPage/CreateLessonPage.jsx"
 import { CategoriesPage } from "./pages/CategoriesPage/CategoriesPage.jsx"
 import { CategoryDetailsPage } from "./pages/CategoryDetailsPage/CategoryDetailsPage.jsx"
@@ -50,6 +52,8 @@ function App() {
                 <Route index element={<CoursesPage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
                 <Route path=":courseId/create_test" element={<CreateTestPage />} />
+                <Route path=":courseId/create_open_test" element={<CreateOpenTestPage />} />
+                
                 <Route path=":courseId/create_lesson" element={<CreateLessonPage />} />
               </Route>
         
