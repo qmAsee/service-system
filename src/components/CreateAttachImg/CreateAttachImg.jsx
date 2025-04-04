@@ -7,17 +7,20 @@ export const CreateAttachImg = ({ onImageUpload, currentImage }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
-  // Синхронизация с внешним состоянием (currentImage)
+  // useEffect(() => {
+  //   if (currentImage) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result);
+  //     };
+  //     reader.readAsDataURL(currentImage);
+  //   } else {
+  //     setImagePreview(null);
+  //   }
+  // }, [currentImage]);
+
   useEffect(() => {
-    if (currentImage) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(currentImage);
-    } else {
-      setImagePreview(null);
-    }
+    setImagePreview(currentImage || null);
   }, [currentImage]);
 
   const resetImage = () => {

@@ -1,34 +1,47 @@
 .create_test_settings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 20px 0 30px;
-
-  &_switch {
-    span {
-      font-size: 14px;
-      color: #666;
-      transition: all 0.3s ease;
-    }
-
-    &.published {
-      span {
-        color: rgb(97, 97, 209);
-      }
-    }
-  }
-
-  .create_test_settings_title {
-    outline: none;
-    font-size: 28px;
-    font-weight: 600;
-    color: rgb(165, 163, 163);
-  }
-
-  .create_test_settings_switch {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    color: rgb(165, 163, 163);
-  }
+    width: 100%;
+    // padding: 20px 20px 0 30px;
+
+    &_switch {
+        span {
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        &.published {
+            span {
+                color: rgb(97, 97, 209);
+            }
+        }
+    }
+
+    .create_test_settings_title {
+        width: 80%;
+        font-size: 30px;
+        font-weight: bold;
+        border: 1px solid transparent;
+        padding: 10px 10px 10px 5px;
+        box-sizing: border-box;
+
+        &:hover {
+            box-shadow: none;
+            border: 1px solid #dbdbdb;
+        }
+
+        &:focus {
+            box-shadow: none;
+            border: 1px solid #a0a0a0;
+        }
+    }
+
+    .create_test_settings_switch {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: rgb(165, 163, 163);
+    }
 }

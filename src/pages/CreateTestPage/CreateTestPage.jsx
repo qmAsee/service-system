@@ -5,6 +5,11 @@ import { CreateCourseHead } from '../../components/CreateCourseHead/CreateCourse
 import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachImg';
 import { TimeRespond } from '../../components/TimeRespond/TimeRespond';
 import { Plus, Check } from "lucide-react";
+import { Button } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { updateCourse } from '@/store/slices/courseSlice';
+import { useNavigate } from 'react-router-dom';
 
 const initialQuestionState = {
   text: '',
@@ -17,6 +22,11 @@ const initialQuestionState = {
 };
 
 export const CreateTestPage = () => {
+  const dispatch = useDispatch()
+  const courses = useSelector(state => state.courses.courses);
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [test, setTest] = useState({
     id: 1,
@@ -24,7 +34,7 @@ export const CreateTestPage = () => {
     isPublished: false,
     blocks: []
   });
-  console.log(test)
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(initialQuestionState);
 
@@ -148,6 +158,26 @@ export const CreateTestPage = () => {
     };
   }, [isPopupOpen]);
 
+  const handleSubmitTest =  () => {
+    const course = courses.find(c => c.id === courseId);
+
+    if (!course) {
+      alert(`Курс с id ${courseId} не найден`);
+      return;
+    }
+
+    const updatedCourse = {
+      ...course,
+      tests: [
+        ...course.tests,
+        test
+      ]
+    }
+
+    dispatch(updateCourse(updatedCourse));
+    navigate(-1);
+  }
+
   // Мемоизированное отображение вопросов
   const questionsList = useMemo(() => {
     if (test.blocks.length === 0) {
@@ -190,6 +220,10 @@ export const CreateTestPage = () => {
       </div>
     ));
   }, [test.blocks, showCorrectAnswers]);
+
+  function loglog() {
+    console.log(test)
+  }
 
   return (
     <>
@@ -263,14 +297,16 @@ export const CreateTestPage = () => {
       )}
       
       <section className={styles.create_test}>
-        <CreateCourseHead 
-          placeholder="Название теста" 
-          value={test.title}
-          onChange={handleTitleChange}
-          publishStatus={test.isPublished}
-          onPublishChange={handlePublishChange}
-        />
-        
+        <div className={styles.create_test_head}>
+          <CreateCourseHead 
+            placeholder="Название теста" 
+            value={test.title}
+            onChange={handleTitleChange}
+            publishStatus={test.isPublished}
+            onPublishChange={handlePublishChange}
+          />
+          <Button onClick={handleSubmitTest} type="primary">Создать тест</Button>
+        </div>
         <div className={styles.create_test_add_question}>
           <button
             className={styles.create_test_add_question_btn}
@@ -295,6 +331,8 @@ export const CreateTestPage = () => {
             <label htmlFor="showCorrectAnswers">
               Показывать тестируемому верные ответы
             </label>
+            <button onClick={loglog}>log test</button>
+
           </div>
         </div>
         

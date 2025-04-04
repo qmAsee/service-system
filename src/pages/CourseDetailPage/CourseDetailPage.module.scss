@@ -1,6 +1,32 @@
-header {
+.header {
     padding: 30px 30px 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
+    .header_actions {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        .course_title_input {
+            font-size: 30px;
+            font-weight: bold;
+            border: 1px solid transparent;
+            padding: 10px 10px 10px 5px;
+            box-sizing: border-box;
+
+            &:hover {
+                box-shadow: none;
+                border: 1px solid #dbdbdb;
+            }
+
+            &:focus {
+                box-shadow: none;
+                border: 1px solid #a0a0a0;
+            }
+        }
+    }
 
     .course_title {
         font-size: 32px;
@@ -49,8 +75,8 @@ header {
                 }
 
                 .course_textarea {
-                    width: 50%;
-                    height: 100%;
+                    width: 100%;
+                    min-height: 50%;
                     border: 1px solid rgb(182, 182, 182);
                     padding: 8px;
                 }

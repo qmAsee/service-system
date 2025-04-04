@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import styles from "./CourseDetailPage.module.scss";
 import { Radio, Space, Button, Input } from "antd";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 import { Table } from "../../components/Table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourse, updateCourse, addCourse } from "@/store/slices/courseSlice";
+import { CreateAttachImg } from "@/components/CreateAttachImg/CreateAttachImg";
 
 const columns = [
   {
@@ -47,6 +48,7 @@ const CourseDetailPage = () => {
   const courses = useSelector((state) => state.courses.courses);
 
   const [isNewCourse, setIsNewCourse] = useState(false);
+  const titleInputRef = useRef(null)
 
   
   // Функция для объединения уроков и тестов
@@ -70,6 +72,10 @@ const CourseDetailPage = () => {
       if (existingCourse) dispatch(setCourse(existingCourse));
     }
   }, [courseId, dispatch, courses, isNewCourse]);
+
+  useEffect(() => {
+    titleInputRef.current.focus()
+  }, [])
 
   // Оптимизированное создание табличных данных
   const combinedData = useMemo(() => {
@@ -146,17 +152,40 @@ const CourseDetailPage = () => {
       return (<><h1>Загрузка...</h1> </>);
   }
 
+  // const loglog = () => {
+  //   console.log(course)
+  // }
+
+  const handleImageUpload = (file) => {
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Преобразуем файл в URL
+      dispatch(setCourse({ ...course, image: imageUrl }));
+    } else {
+      // Если файл null (сброс изображения)
+      dispatch(setCourse({ ...course, image: "" }));
+    }
+  };
+
   return (
     <>
-      <header>
-        <h1 className={styles.course_title}>
+      <header className={styles.header}>
+        <div className={styles.header_actions}>
           <Input
+            ref={titleInputRef}
             value={course.title}
             onChange={handleInputChange("title")}
-            placeholder="Название курса"
+            placeholder="Введите название курса"
             className={styles.course_title_input}
+            variant="outlined"
           />
-        </h1>
+          <Button
+            type="primary"
+            onClick={handleSaveCourse}
+            
+          >
+            {isNewCourse ? "Создать курс" : "Сохранить изменения"}
+          </Button>
+        </div>
         <nav className={styles.course_nav}>
           <span className={`${styles.course_navlink} ${styles.course_navlink_active}`}>
             Общая информация и содержание курса
@@ -205,19 +234,18 @@ const CourseDetailPage = () => {
               </div>
               <div>
                 <h3 className={styles.course_section_title}>Обложка курса</h3>
-                <Input
-                  value={course.image}
-                  onChange={handleInputChange("image")}
-                  placeholder="URL изображения"
-                />
-                {course.image && (
+                {/* {course.image && (
                   <img src={course.image} alt="Обложка курса" className={styles.course_image} />
-                )}
+                )} */}
+                <CreateAttachImg
+                  onImageUpload={handleImageUpload}
+                  currentImage={course.image} // Мы не передаем File, так как image уже URL
+                />
               </div>
             </div>
             <div className={styles.course_general_part}>
               <h3 className={styles.course_section_title}>Описание курса</h3>
-              <textarea
+              <Input.TextArea
                 value={course.description}
                 onChange={handleInputChange("description")}
                 className={styles.course_textarea}
@@ -237,11 +265,11 @@ const CourseDetailPage = () => {
               </Button>
             </Link>
             <Link to={`/courses/${courseId}/create_test`}>
-              <Button style={{ backgroundColor: "#2eb03f", color: "white" }} onClick={handleSaveCourseNoRedirect}>
+              <Button type="primary" onClick={handleSaveCourseNoRedirect}>
                 + Тест
               </Button>
             </Link>
-            <Button style={{ backgroundColor: "#2eb03f", color: "white" }}>
+            <Button type="primary" >
               + Тест с открытым вопросом
             </Button>
             <Button style={{ padding: "3px 10px" }}>
@@ -255,12 +283,7 @@ const CourseDetailPage = () => {
           </div>
         </div>
         <Table data={combinedData} columns={columns} />
-        <Button
-          onClick={handleSaveCourse}
-          style={{ backgroundColor: "#2eb03f", color: "white", marginTop: "20px" }}
-        >
-          {isNewCourse ? "Создать курс" : "Сохранить изменения"}
-        </Button>
+        
       </div>
     </>
   );

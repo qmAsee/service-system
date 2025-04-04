@@ -21,7 +21,6 @@ import CoursesPage from './pages/CoursesPage/CoursesPage.jsx';
 import CourseDetailPage from './pages/CourseDetailPage/CourseDetailPage.jsx';
 
 import { ConfigProvider } from 'antd';
-import CreateCoursePage from './pages/CreateCoursePage/CreateCoursePage.jsx';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
@@ -37,7 +36,7 @@ function App() {
             colorPrimaryActive: "#22802f",
             defaultHoverBorderColor: "#9e9e9e",
             defaultHoverColor: "black"
-          }
+          },
         }
       }}>
         <Router>

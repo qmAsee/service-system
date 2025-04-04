@@ -5,8 +5,16 @@ import styles from './CreateLessonPage.module.scss';
 import { MonitorPlay, Youtube, Camera, Mic, Type, AlignJustify, ArrowUp, ArrowDown, Trash2 } from "lucide-react";
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from "antd";
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { updateCourse } from '@/store/slices/courseSlice';
 
 export const CreateLessonPage = () => {
+  const dispatch = useDispatch()
+  const courses = useSelector(state => state.courses.courses);
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+
   const [showContentMenu, setShowContentMenu] = useState(false);
   const [lesson, setLesson] = useState({
     id: 1,
@@ -36,7 +44,7 @@ export const CreateLessonPage = () => {
       title: newTitle
     });
   };
-  console.log(lesson)
+  // console.log(lesson)
   const addNewChapter = () => {
     const newId = lesson.blocks.length > 0 ? Math.max(...lesson.blocks.map(b => b.id)) + 1 : 1;
     setLesson({
@@ -237,16 +245,39 @@ export const CreateLessonPage = () => {
   ];
 
   const loglog = () => {
-    console.log(contentBlocks);
+    console.log(lesson);
+  }
+
+  const handleSubmitLesson = () => {
+    const course = courses.find((c) => c.id === courseId);
+
+    if (!course) {
+      alert('Курс не найден!');
+      return;
+    }
+
+    const newCourse = {
+      ...course,
+      lessons: {
+        ...course.lessons,
+        lesson,
+      }
+    }
+
+    dispatch(updateCourse(newCourse))
+    navigate(-1)
   }
 
   return (
     <section className={styles.create_lesson}>
-      <CreateCourseHead 
-        placeholder={"Название урока"}
-        value={lesson.title}
-        onChange={(newTitle) => setLesson({...lesson, title: newTitle})}
-      />
+      <div className={styles.create_lesson_head}>
+        <CreateCourseHead 
+          placeholder={"Название урока"}
+          value={lesson.title}
+          onChange={(newTitle) => setLesson({...lesson, title: newTitle})}
+        />
+        <Button type="primary">Создать урок</Button>
+      </div>
       <div className={styles.create_lesson_container}>
         <div className={styles.create_lesson_content}>
           <h2>Содержание урока</h2>

@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './CreateCourseHead.module.scss';
-import { ConfigProvider, Switch } from 'antd';
+import { ConfigProvider, Input, Switch } from 'antd';
 
 export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
   const [checked, setChecked] = useState(false);
   const [title, setTitle] = useState(value);
+  const titleInputRef = useRef(null)
 
   // Синхронизируем внутреннее состояние с внешним значением
   useEffect(() => {
     setTitle(value);
+    titleInputRef.current.focus();
   }, [value]);
 
   const handleTitleChange = (e) => {
@@ -21,7 +23,8 @@ export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
 
   return (
     <div className={styles.create_test_settings}>
-      <input
+      <Input
+        ref={titleInputRef}
         type="text"
         placeholder={placeholder}
         className={styles.create_test_settings_title}
