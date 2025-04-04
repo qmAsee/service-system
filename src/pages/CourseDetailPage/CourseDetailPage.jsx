@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "./CourseDetailPage.module.scss";
 import { Radio, Space, Button, Input } from "antd";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
 import { Table } from "../../components/Table/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { setCourse, setCourses, updateCourse, addCourse } from "@/store/slices/courseSlice";
+import { setCourse, updateCourse, addCourse } from "@/store/slices/courseSlice";
 
 const columns = [
   {
@@ -40,22 +40,20 @@ const columns = [
 
 const CourseDetailPage = () => {
   const { courseId } = useParams();
-  // const location = useLocation();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const course = useSelector((state) => state.courses.course);
   const courses = useSelector((state) => state.courses.courses);
 
-  // Начальные данные для нового курса
-  // const [combinedData, setCombinedData] = useState([]);
+  const [isNewCourse, setIsNewCourse] = useState(false);
 
-  const isNewCourse = !courses.some((c) => c.id === courseId);
-
+  
   // Функция для объединения уроков и тестов
   useEffect(() => {
+    setIsNewCourse(!courses.some((c) => c.id === courseId))
+
     if (isNewCourse) {
-      // Сброс до начального состояния для нового курса
       dispatch(setCourse({
         id: null,
         image: "",
@@ -97,13 +95,6 @@ const CourseDetailPage = () => {
     ];
   }, [course]);
 
-  // Обновление таблицы
-  // useEffect(() => {
-  //   if (course) {
-  //     setCombinedData(flattenLessonsAndTests(course));
-  //   }
-  // }, [course]);
-
   // Обработчики изменений
   const handleInputChange = (field) => (e) => {
     dispatch(setCourse( ({ ...course, [field]: e.target.value })));
@@ -124,7 +115,7 @@ const CourseDetailPage = () => {
     if (isNewCourse) {
       const newCourse = { 
         ...course, 
-        id: `course_${Date.now()}`
+        id: `${courseId}`
       };
       dispatch(addCourse(newCourse));
     } else {
@@ -134,10 +125,22 @@ const CourseDetailPage = () => {
     navigate("/courses");
   };
 
-  function loglog() {
-    console.log(courses)
-    console.log(course)
-  }
+  const handleSaveCourseNoRedirect = () => {
+    if (!course?.title) {
+      alert("Введите название курса!");
+      return;
+    }
+
+    if (isNewCourse) {
+      const newCourse = { 
+        ...course, 
+        id: `${courseId}`
+      };
+      dispatch(addCourse(newCourse));
+    } else {
+      dispatch(updateCourse(course));
+    }
+  };
 
   if (!course) {   
       return (<><h1>Загрузка...</h1> </>);
@@ -228,13 +231,13 @@ const CourseDetailPage = () => {
         <div className={styles.course_table_header}>
           <h2 className={styles.course_general_title}>Задания</h2>
           <div className={styles.course_table_header_buttons}>
-            <Link to={`/courses/${courseId}/create_lesson`} state={{ courseData: course }}>
-              <Button style={{ backgroundColor: "#498fcc", color: "white" }}>
+            <Link to={`/courses/${courseId}/create_lesson`}>
+              <Button style={{ backgroundColor: "#498fcc", color: "white" }} onClick={handleSaveCourseNoRedirect}>
                 + Урок
               </Button>
             </Link>
-            <Link to={`/courses/${courseId}/create_test`} state={{ courseData: course }}>
-              <Button style={{ backgroundColor: "#2eb03f", color: "white" }}>
+            <Link to={`/courses/${courseId}/create_test`}>
+              <Button style={{ backgroundColor: "#2eb03f", color: "white" }} onClick={handleSaveCourseNoRedirect}>
                 + Тест
               </Button>
             </Link>
