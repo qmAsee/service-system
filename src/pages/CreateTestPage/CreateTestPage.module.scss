@@ -3,6 +3,14 @@
   flex-direction: column;
   gap: 20px;
 
+  .create_test_head {
+    display: flex;
+    align-items: center;
+    padding: 30px 30px 0 30px;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
   .create_test_add_question {
     display: flex;
     align-items: center;

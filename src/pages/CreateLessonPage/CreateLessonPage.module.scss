@@ -3,6 +3,14 @@
   flex-direction: column;
   gap: 20px;
 
+  .create_lesson_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 30px 0 30px;
+    gap: 30px;
+  }
+
   .create_lesson_container {
     display: flex;
     justify-content: center;

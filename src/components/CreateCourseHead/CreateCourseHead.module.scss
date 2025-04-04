@@ -27,8 +27,23 @@
 
   .create_test_settings_switch {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 20px;
-    color: rgb(165, 163, 163);
+    width: 100%;
+
+    &_switch {
+      span {
+        font-size: 14px;
+        color: #666;
+        transition: all 0.3s ease;
+      }
+
+      &.published {
+        span {
+          color: rgb(97, 97, 209);
+        }
+      }
+    }
   }
 }

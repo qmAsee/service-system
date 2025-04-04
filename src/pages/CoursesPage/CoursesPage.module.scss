@@ -3,10 +3,17 @@
     flex-direction: column;
     gap: 40px;
 
-    .courses_title {
-        font-size: 32px;
-        font-weight: bold;
-        padding: 0px 30px 0 30px;
+    .courses_head {
+        display: flex;
+        align-items: center;
+        padding: 30px 30px 0 30px;
+        justify-content: space-between;
+
+        .courses_title {
+            font-size: 32px;
+            font-weight: bold;
+            padding: 0px 30px 0 30px;
+        }
     }
 
     .courses_cols_names {

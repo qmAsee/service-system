@@ -5,6 +5,8 @@ import lesson_guest_service from "../assets/lesson_guest_service.webp";
 import lesson_handwash from "../assets/lesson_handwash.webp";
 import lesson_order from "../assets/lesson_order.webp";
 
+
+
 export const new_mock_training_courses = [
     {
         id: "course_001",

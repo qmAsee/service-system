@@ -7,6 +7,9 @@ import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachIm
 import { TimeRespond } from '../../components/TimeRespond/TimeRespond';
 import { Plus, Check, MoveRight } from "lucide-react";
 import { Link, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCourse } from '@/store/slices/courseSlice';
+import { useNavigate } from 'react-router-dom';
 
 const initialQuestionState = {
   id: Date.now(),
@@ -20,7 +23,10 @@ const initialQuestionState = {
 };
 
 export const CreateTestPage = () => {
+  const dispatch = useDispatch()
+  const courses = useSelector(state => state.courses.courses);
   const { courseId } = useParams();
+  const navigate = useNavigate();
 
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [course, setCourse] = useState({
@@ -178,6 +184,26 @@ export const CreateTestPage = () => {
     };
   }, [isPopupOpen]);
 
+  const handleSubmitTest =  () => {
+    const course = courses.find(c => c.id === courseId);
+
+    if (!course) {
+      alert(`Курс с id ${courseId} не найден`);
+      return;
+    }
+
+    const updatedCourse = {
+      ...course,
+      tests: [
+        ...course.tests,
+        test
+      ]
+    }
+
+    dispatch(updateCourse(updatedCourse));
+    navigate(-1);
+  }
+
   // Мемоизированное отображение вопросов
   const questionsList = useMemo(() => {
     if (currentTest.questions.length === 0) {
@@ -220,6 +246,10 @@ export const CreateTestPage = () => {
       </div>
     ));
   }, [currentTest.questions, showCorrectAnswers]);
+
+  function loglog() {
+    console.log(test)
+  }
 
   return (
     <>
@@ -333,9 +363,9 @@ export const CreateTestPage = () => {
             <label htmlFor="showCorrectAnswers">
               Показывать тестируемому верные ответы
             </label>
+            <button onClick={loglog}></button>
           </div>
         </div>
-        
         <div className={styles.questions_list}>
           {questionsList}
         </div>

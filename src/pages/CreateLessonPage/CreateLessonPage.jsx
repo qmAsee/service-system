@@ -7,10 +7,16 @@ import styles from './CreateLessonPage.module.scss';
 import { MonitorPlay, Youtube, Camera, Mic, Type, AlignJustify, ArrowUp, ArrowDown, Trash2, MoveRight} from "lucide-react";
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from "antd";
-import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { updateCourse } from '@/store/slices/courseSlice';
 
 export const CreateLessonPage = () => {
+  const dispatch = useDispatch()
+  const courses = useSelector(state => state.courses.courses);
   const { courseId } = useParams();
+  const navigate = useNavigate();
+
   const [showContentMenu, setShowContentMenu] = useState(false);
   const [lesson, setLesson] = useState({
     id: `lesson_${Date.now()}`,
