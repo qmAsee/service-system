@@ -1,11 +1,13 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styles from './SubcategoryPage.module.scss';
 import { CategoriesHead } from '../../components/CategoriesHead/CategoriesHead';
-import { CategoriesNav } from '../../components/CategoriesNav/CategoriesNav';
+import { CustomBreadcrumb } from '../../components/CustomBreadcrumb/CustomBreadcrumb';
 import { mockCategories } from '../../utils/mock_categories'; // Импортируем mock-данные
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { MoveRight } from "lucide-react";
+
 export const SubcategoryPage = () => {
   // Получаем параметры из URL
   const { categoryId, subcategoryId } = useParams();
@@ -25,12 +27,20 @@ export const SubcategoryPage = () => {
     console.log('Добавление новой позиции');
     // Здесь будет логика добавления новой позиции
   };
+
   return (
+    <>
+      <CustomBreadcrumb
+        items={[
+          { title: <Link to="/dashboard">Главная</Link> },
+          { title: <Link to="/categories">Меню</Link> },
+          { title: <Link to={`/categories/${categoryId}`}>{currentCategory.category}</Link>},
+          { title: currentSubcategory.name, }
+        ]}
+        separator={<MoveRight size={14} />} />
     <section className={styles.subcategory}>
       <CategoriesHead />
-      <CategoriesNav />
       <div className={styles.subcategory_blocks}>
-
         <Button
           type="primary"
           shape="round"
@@ -60,5 +70,6 @@ export const SubcategoryPage = () => {
         ))}
       </div>
     </section>
+    </>
   );
 };

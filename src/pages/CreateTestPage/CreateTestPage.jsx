@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import styles from './CreateTestPage.module.scss';
+import { CustomBreadcrumb } from '../../components/CustomBreadcrumb/CustomBreadcrumb';
 import { AnswerVariant } from '../../components/AnswerVariant/AnswerVariant';
 import { CreateCourseHead } from '../../components/CreateCourseHead/CreateCourseHead';
 import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachImg';
 import { TimeRespond } from '../../components/TimeRespond/TimeRespond';
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, MoveRight } from "lucide-react";
+import { Link, useParams } from 'react-router-dom';
 
 const initialQuestionState = {
+  id: Date.now(),
   text: '',
   image: null,
-  time: 30,
+  totalTime: 30,
   answers: [
     { id: 1, text: '', isCorrect: false },
     { id: 2, text: '', isCorrect: false }
@@ -17,32 +20,58 @@ const initialQuestionState = {
 };
 
 export const CreateTestPage = () => {
+  const { courseId } = useParams();
+
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
-  const [test, setTest] = useState({
-    id: 1,
-    title: '',
-    isPublished: false,
-    blocks: []
+  const [course, setCourse] = useState({
+    // другие поля курса...
+    tests: [{
+      id: Date.now().toString(),
+      title: '',
+      description: '',
+      isPublished: false,
+      questions: []
+    }]
   });
-  console.log(test)
+  console.log(course)
+  const [currentTestIndex, setCurrentTestIndex] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(initialQuestionState);
 
+  // Получаем текущий тест для удобства
+  const currentTest = course.tests[currentTestIndex];
+
   // Мемоизированные обработчики
   const handleTitleChange = useCallback((title) => {
-    setTest(prev => ({ ...prev, title }));
-  }, []);
+    setCourse(prev => {
+      const newTests = [...prev.tests];
+      newTests[currentTestIndex] = { ...newTests[currentTestIndex], title };
+      return { ...prev, tests: newTests };
+    });
+  }, [currentTestIndex]);
+
+  const handleDescriptionChange = useCallback((description) => {
+    setCourse(prev => {
+      const newTests = [...prev.tests];
+      newTests[currentTestIndex] = { ...newTests[currentTestIndex], description };
+      return { ...prev, tests: newTests };
+    });
+  }, [currentTestIndex]);
 
   const handlePublishChange = useCallback((isPublished) => {
-    setTest(prev => ({ ...prev, isPublished }));
-  }, []);
+    setCourse(prev => {
+      const newTests = [...prev.tests];
+      newTests[currentTestIndex] = { ...newTests[currentTestIndex], isPublished };
+      return { ...prev, tests: newTests };
+    });
+  }, [currentTestIndex]);
 
   const handleQuestionChange = useCallback((e) => {
     setCurrentQuestion(prev => ({ ...prev, text: e.target.value }));
   }, []);
 
-  const handleTimeChange = useCallback((time) => {
-    setCurrentQuestion(prev => ({ ...prev, time }));
+  const handleTimeChange = useCallback((totalTime) => {
+    setCurrentQuestion(prev => ({ ...prev, totalTime }));
   }, []);
 
   const handleImageUpload = useCallback((image) => {
@@ -122,23 +151,24 @@ export const CreateTestPage = () => {
       return;
     }
     
-    const newBlock = {
-      id: Date.now(),
-      question: { ...currentQuestion },
-      totalTime: currentQuestion.time
-    };
-
-    setTest(prev => ({
-      ...prev,
-      blocks: [...prev.blocks, newBlock]
-    }));
+    setCourse(prev => {
+      const newTests = [...prev.tests];
+      newTests[currentTestIndex] = {
+        ...newTests[currentTestIndex],
+        questions: [
+          ...newTests[currentTestIndex].questions,
+          { ...currentQuestion }
+        ]
+      };
+      return { ...prev, tests: newTests };
+    });
     
     if (addAnother) {
       resetCurrentQuestion();
     } else {
       closePopup();
     }
-  }, [currentQuestion, closePopup, resetCurrentQuestion]);
+  }, [currentQuestion, closePopup, resetCurrentQuestion, currentTestIndex]);
 
   // Эффект для управления скроллом
   useEffect(() => {
@@ -150,7 +180,7 @@ export const CreateTestPage = () => {
 
   // Мемоизированное отображение вопросов
   const questionsList = useMemo(() => {
-    if (test.blocks.length === 0) {
+    if (currentTest.questions.length === 0) {
       return (
         <div 
           className={styles.create_test_add_question_block}
@@ -161,21 +191,21 @@ export const CreateTestPage = () => {
       );
     }
 
-    return test.blocks.map((block, index) => (
-      <div key={block.id} className={styles.question_item}>
+    return currentTest.questions.map((question, index) => (
+      <div key={question.id} className={styles.question_item}>
         <h3>Вопрос {index + 1}</h3>
-        <p>{block.question.text}</p>
-        {block.question.image && (
+        <p>{question.text}</p>
+        {question.image && (
           <div className={styles.question_image}>
             <img 
-              src={URL.createObjectURL(block.question.image)} 
+              src={URL.createObjectURL(question.image)} 
               alt="Вопрос" 
             />
           </div>
         )}
-        <p>Время: {block.question.time} сек.</p>
+        <p>Время: {question.totalTime} сек.</p>
         <div className={styles.answers_list}>
-          {block.question.answers.map((answer, i) => (
+          {question.answers.map((answer, i) => (
             <div 
               key={answer.id} 
               className={`${styles.answer} ${answer.isCorrect && showCorrectAnswers ? styles.correct : ''}`}
@@ -189,10 +219,18 @@ export const CreateTestPage = () => {
         </div>
       </div>
     ));
-  }, [test.blocks, showCorrectAnswers]);
+  }, [currentTest.questions, showCorrectAnswers]);
 
   return (
     <>
+      <CustomBreadcrumb
+        items={[
+          {title: <Link to="/dashboard">Главная</Link>},
+          {title: <Link to="/courses">Учебные курсы</Link>},
+          {title: <Link to={`/courses/${courseId}`}>Редактирование курса</Link>},
+          {title: 'Создание урока',}
+        ]}
+        separator={<MoveRight size={14} />}/>
       {isPopupOpen && (
         <div className={styles.popup_overlay} onClick={handleOverlayClick}>
           <div className={styles.popup_content}>
@@ -217,7 +255,7 @@ export const CreateTestPage = () => {
             
             <div className={styles.popup_time}>
               <TimeRespond 
-                initialTime={currentQuestion.time} 
+                initialTime={currentQuestion.totalTime} 
                 onTimeChange={handleTimeChange}
               />
             </div>
@@ -265,9 +303,9 @@ export const CreateTestPage = () => {
       <section className={styles.create_test}>
         <CreateCourseHead 
           placeholder="Название теста" 
-          value={test.title}
+          value={currentTest.title}
           onChange={handleTitleChange}
-          publishStatus={test.isPublished}
+          publishStatus={currentTest.isPublished}
           onPublishChange={handlePublishChange}
         />
         

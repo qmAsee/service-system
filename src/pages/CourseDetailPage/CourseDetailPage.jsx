@@ -2,8 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import styles from "./CourseDetailPage.module.scss";
 import { Radio, Space, Button, Input } from "antd";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { ArrowDownToLine, ArrowUpToLine } from "lucide-react";
+import { ArrowDownToLine, ArrowUpToLine, MoveRight } from "lucide-react";
 import { Table } from "../../components/Table/Table";
+import { CustomBreadcrumb } from "../../components/CustomBreadcrumb/CustomBreadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { setCourse, updateCourse, addCourse } from "@/store/slices/courseSlice";
 
@@ -48,7 +49,7 @@ const CourseDetailPage = () => {
 
   const [isNewCourse, setIsNewCourse] = useState(false);
 
-  
+
   // Функция для объединения уроков и тестов
   useEffect(() => {
     setIsNewCourse(!courses.some((c) => c.id === courseId))
@@ -74,7 +75,7 @@ const CourseDetailPage = () => {
   // Оптимизированное создание табличных данных
   const combinedData = useMemo(() => {
     if (!course) return [];
-    
+
     return [
       ...course.lessons.map((lesson, index) => ({
         number: index + 1,
@@ -97,12 +98,12 @@ const CourseDetailPage = () => {
 
   // Обработчики изменений
   const handleInputChange = (field) => (e) => {
-    dispatch(setCourse( ({ ...course, [field]: e.target.value })));
+    dispatch(setCourse(({ ...course, [field]: e.target.value })));
   };
 
   const handleDifficultyChange = (e) => {
     const newDifficulty = e.target.value;
-    dispatch(setCourse( ({ ...course, difficulty: newDifficulty })));
+    dispatch(setCourse(({ ...course, difficulty: newDifficulty })));
   };
 
   // Сохранение курса
@@ -113,15 +114,15 @@ const CourseDetailPage = () => {
     }
 
     if (isNewCourse) {
-      const newCourse = { 
-        ...course, 
+      const newCourse = {
+        ...course,
         id: `${courseId}`
       };
       dispatch(addCourse(newCourse));
     } else {
       dispatch(updateCourse(course));
     }
-    
+
     navigate("/courses");
   };
 
@@ -132,8 +133,8 @@ const CourseDetailPage = () => {
     }
 
     if (isNewCourse) {
-      const newCourse = { 
-        ...course, 
+      const newCourse = {
+        ...course,
         id: `${courseId}`
       };
       dispatch(addCourse(newCourse));
@@ -142,12 +143,20 @@ const CourseDetailPage = () => {
     }
   };
 
-  if (!course) {   
-      return (<><h1>Загрузка...</h1> </>);
+  if (!course) {
+    return (<><h1>Загрузка...</h1> </>);
   }
 
   return (
     <>
+      <CustomBreadcrumb
+        items={[
+          { title: <Link to="/dashboard">Главная</Link> },
+          { title: <Link to={`/courses`}>Редактирование курса</Link>, },
+          { title: 'Редактирование курса' },
+          
+        ]}
+        separator={<MoveRight size={14} />} />
       <header>
         <h1 className={styles.course_title}>
           <Input
@@ -178,25 +187,22 @@ const CourseDetailPage = () => {
                   <Space direction="horizontal">
                     <Radio.Button
                       value="базовый"
-                      className={`${styles.button} ${
-                        course.difficulty === "базовый" ? styles.buttonChecked : styles.buttonNotChecked
-                      }`}
+                      className={`${styles.button} ${course.difficulty === "базовый" ? styles.buttonChecked : styles.buttonNotChecked
+                        }`}
                     >
                       Базовый
                     </Radio.Button>
                     <Radio.Button
                       value="профи"
-                      className={`${styles.button} ${
-                        course.difficulty === "профи" ? styles.buttonChecked : styles.buttonNotChecked
-                      }`}
+                      className={`${styles.button} ${course.difficulty === "профи" ? styles.buttonChecked : styles.buttonNotChecked
+                        }`}
                     >
                       Профи
                     </Radio.Button>
                     <Radio.Button
                       value="эксперт"
-                      className={`${styles.button} ${
-                        course.difficulty === "эксперт" ? styles.buttonChecked : styles.buttonNotChecked
-                      }`}
+                      className={`${styles.button} ${course.difficulty === "эксперт" ? styles.buttonChecked : styles.buttonNotChecked
+                        }`}
                     >
                       Эксперт
                     </Radio.Button>
@@ -241,9 +247,11 @@ const CourseDetailPage = () => {
                 + Тест
               </Button>
             </Link>
-            <Button style={{ backgroundColor: "#2eb03f", color: "white" }}>
-              + Тест с открытым вопросом
-            </Button>
+            <Link to={`/courses/${courseId}/create_open_test`}>
+              <Button style={{ backgroundColor: "#2eb03f", color: "white" }}>
+                + Тест с открытым вопросом
+              </Button>
+            </Link>
             <Button style={{ padding: "3px 10px" }}>
               <ArrowDownToLine size={15} />
               Импорт уроков и тестов
