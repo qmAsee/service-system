@@ -32,7 +32,7 @@ export const CreateLessonPage = () => {
       }
     ]
   });
-  console.log(lesson)
+
   const [activeBlockId, setActiveBlockId] = useState(lesson.blocks[0].id);
   const fileImageInputRef = useRef(null);
   const fileVideoInputRef = useRef(null);
@@ -155,6 +155,10 @@ export const CreateLessonPage = () => {
     { icon: <AlignJustify size={26} />, label: "Глава", action: addNewChapter }
   ];
 
+  const loglog = () => {
+    console.log(lesson)
+  }
+
   return (
     <>
       <CustomBreadcrumb
@@ -166,6 +170,7 @@ export const CreateLessonPage = () => {
         ]}
         separator={<MoveRight size={14} />}/>
       <section className={styles.create_lesson}>
+        <Button onClick={loglog}>lesson</Button>
         <CreateCourseHead
           placeholder="Название урока"
           value={lesson.title}

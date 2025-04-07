@@ -25,7 +25,7 @@ const courseSlice = createSlice({
             state.course = initialState.course;
         },
 
-        // Для обновления существующего курса
+        // обновление существующего курса
         updateCourse: (state, action) => {
             const updatedCourse = action.payload;
             state.courses = state.courses.map((course) =>
