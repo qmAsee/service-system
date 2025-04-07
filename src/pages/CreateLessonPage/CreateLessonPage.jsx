@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { CustomBreadcrumb } from "../../components/CustomBreadcrumb/CustomBreadcrumb";
 import { CreateCourseHead } from '../../components/CreateCourseHead/CreateCourseHead';
@@ -6,7 +6,7 @@ import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachIm
 import styles from './CreateLessonPage.module.scss';
 import { MonitorPlay, Youtube, Camera, Mic, Type, AlignJustify, ArrowUp, ArrowDown, Trash2, MoveRight} from "lucide-react";
 import { PlusOutlined } from '@ant-design/icons';
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { updateCourse } from '@/store/slices/courseSlice';
@@ -14,15 +14,17 @@ import { updateCourse } from '@/store/slices/courseSlice';
 export const CreateLessonPage = () => {
   const dispatch = useDispatch()
   const courses = useSelector(state => state.courses.courses);
-  const { courseId } = useParams();
+  const { courseId, lessonId } = useParams();
   const navigate = useNavigate();
 
   const [showContentMenu, setShowContentMenu] = useState(false);
+  const [isNewLesson, setIsNewLesson] = useState(!lessonId);
   const [lesson, setLesson] = useState({
     id: `lesson_${Date.now()}`,
     type: "lesson",
     title: '',
     lessonImage: null,
+    isPublished: false,
     blocks: [
       {
         id: `block_${Date.now()}`,
@@ -32,10 +34,31 @@ export const CreateLessonPage = () => {
       }
     ]
   });
-
-  const [activeBlockId, setActiveBlockId] = useState(lesson.blocks[0].id);
   const fileImageInputRef = useRef(null);
   const fileVideoInputRef = useRef(null);
+  const [activeBlockId, setActiveBlockId] = useState(lesson.blocks[0].id);
+
+  useEffect(() => {
+    const course = courses.find((c) => c.id === courseId);
+    if (!course) return;
+
+    if (lessonId) {
+      const existingLesson = course.lessons.find((l) => l.id === lessonId);
+      if (existingLesson) {
+        setLesson(existingLesson);
+        setActiveBlockId(existingLesson.blocks[0]?.id || null);
+      }
+    } else {
+      setActiveBlockId(lesson.blocks[0].id);
+    }
+  }, [courseId, lessonId, courses]);
+
+  const toggleIsPublished = () => {
+    setLesson(prev => ({
+      ...prev,
+      isPublished: !prev.isPublished,
+    }));
+  }
 
   const toggleContentMenu = () => {
     setShowContentMenu(!showContentMenu);
@@ -48,12 +71,14 @@ export const CreateLessonPage = () => {
     });
   };
 
-  const handleCoverImageUpload = (image) => {
-    setLesson({
-      ...lesson,
-      lessonImage: image
-    });
-  };
+  const handleImageUpload = (file) => {
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        setLesson({ ...lesson, image: imageUrl });
+      } else {
+        setLesson({ ...lesson, image: "" });
+      }
+    };
 
   const generateId = () => `block_${Date.now()}`;
 
@@ -155,9 +180,34 @@ export const CreateLessonPage = () => {
     { icon: <AlignJustify size={26} />, label: "Глава", action: addNewChapter }
   ];
 
-  const loglog = () => {
-    console.log(lesson)
-  }
+  const handleSubmitLesson = (e) => {
+    e.preventDefault();
+    const course = courses.find((course) => course.id === courseId);
+
+    if (!course) {
+      alert(`Курс с id ${courseId} не найден`);
+      return;
+    }
+
+    let updatedLessons;
+    if (lessonId) {
+      // Обновляем существующий урок
+      updatedLessons = course.lessons.map((l) =>
+        l.id === lessonId ? lesson : l
+      );
+    } else {
+      // Создаем новый урок
+      updatedLessons = [...course.lessons, lesson];
+    }
+
+    const updatedCourse = {
+      ...course,
+      lessons: updatedLessons,
+    };
+
+    dispatch(updateCourse(updatedCourse));
+    navigate(-1);
+  };
 
   return (
     <>
@@ -170,19 +220,23 @@ export const CreateLessonPage = () => {
         ]}
         separator={<MoveRight size={14} />}/>
       <section className={styles.create_lesson}>
-        <Button onClick={loglog}>lesson</Button>
-        <CreateCourseHead
-          placeholder="Название урока"
-          value={lesson.title}
-          onChange={updateLessonTitle}
-        />
+        <div className={styles.create_lesson_head}>
+          <CreateCourseHead
+            placeholder="Название урока"
+            value={lesson.title}
+            onChange={updateLessonTitle}
+            toggleIsPublished={toggleIsPublished}
+            isPublished={lesson.isPublished}
+          />
+          <Button type='primary' onClick={handleSubmitLesson}>{isNewLesson ? 'Добавить урок' : 'Сохранить изменения'}</Button>
+        </div>
         <div className={styles.create_lesson_container}>
           <div className={styles.create_lesson_content}>
             <h2>Содержание урока</h2>
 
             <div className={styles.create_lesson_cover}>
               <span className={styles.create_lesson_title}>Обложка</span>
-              <CreateAttachImg onImageUpload={handleCoverImageUpload} />
+              <CreateAttachImg onImageUpload={handleImageUpload} currentImage={lesson.lessonImage}/>
             </div>
 
             <input
@@ -204,11 +258,15 @@ export const CreateLessonPage = () => {
             {lesson.blocks.map((block, index) => (
               <div
                 key={block.id}
-                className={`${styles.create_lesson_content_block} ${block.type === 'chapter' ? styles.chapter :
-                    block.type === 'text' ? styles.text_block :
-                      block.type === 'image' ? styles.image_block :
-                        styles.video_block
-                  }`}
+                className={`${styles.create_lesson_content_block} ${
+                  block.type === "chapter"
+                    ? styles.chapter
+                    : block.type === "text"
+                    ? styles.text_block
+                    : block.type === "image"
+                    ? styles.image_block
+                    : styles.video_block
+                }`}
                 onClick={() => setActiveBlockId(block.id)}
               >
                 {block.type === 'chapter' && (
@@ -228,10 +286,11 @@ export const CreateLessonPage = () => {
                 {block.type === 'text' && (
                   <>
                     <span className={styles.create_lesson_title}>Текст</span>
-                    <textarea
+                    <Input.TextArea
                       placeholder="Введите текст"
                       value={block.blockText}
                       onChange={(e) => updateBlockContent(block.id, e.target.value)}
+                      className={styles.textblock_input}
                     />
                   </>
                 )}

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './CreateCourseHead.module.scss';
 import { ConfigProvider, Input, Switch } from 'antd';
 
-export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
-  const [checked, setChecked] = useState(false);
+export const CreateCourseHead = ({ placeholder, value = '', onChange, isPublished, toggleIsPublished }) => {
+  // const [checked, setChecked] = useState(false);
   const [title, setTitle] = useState(value);
   const titleInputRef = useRef(null)
 
@@ -33,9 +33,9 @@ export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
         maxLength={100}
       />
       
-      <div className={`${styles.create_test_settings_switch} ${checked ? styles.published : ''}`}>
+      <div className={`${styles.create_test_settings_switch} ${isPublished ? styles.published : ''}`}>
         <span className={styles.status_label}>
-          {checked ? 'Опубликован' : 'Не опубликован'}
+          {isPublished ? 'Опубликован' : 'Не опубликован'}
         </span>
         
         <ConfigProvider
@@ -45,15 +45,15 @@ export const CreateCourseHead = ({ placeholder, value = '', onChange }) => {
                 colorPrimary: 'rgb(97, 97, 209)',
                 colorPrimaryHover: 'rgb(77, 77, 189)',
                 colorBgContainer: '#f0f0f0',
-                handleBg: checked ? '#fff' : '#f0f0f0',
+                handleBg: isPublished ? '#fff' : '#f0f0f0',
               },
             },
           }}
         >
           <Switch
-            checked={checked}
-            onChange={(checked) => setChecked(checked)}
-            aria-label={checked ? 'Снять с публикации' : 'Опубликовать'}
+            checked={isPublished}
+            onChange={toggleIsPublished}
+            aria-label={isPublished ? 'Снять с публикации' : 'Опубликовать'}
           />
         </ConfigProvider>
       </div>

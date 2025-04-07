@@ -11,6 +11,8 @@ export const Table = ({
     data,
     className = "",
     tableContainerStyle = {},
+    onRowClick,
+    hoverEffect = false,
 }) => {
     const table = useReactTable({
         data,
@@ -42,7 +44,7 @@ export const Table = ({
                 ))}
                 {/* Строки таблицы */}
                 {table.getRowModel().rows.map((row) => (
-                    <div className={styles.tr} key={row.id}>
+                    <div className={`${styles.tr} ${hoverEffect === true ? styles.interactive_row : ''}`} key={row.id} onClick={onRowClick ? () => onRowClick(row) : null}>
                         {row.getVisibleCells().map((cell) => (
                             <div className={styles.td} key={cell.id}>
                                 {flexRender(

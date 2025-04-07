@@ -47,15 +47,16 @@ function App() {
               <Route path="managers" element={<ManagersPage />} />
               <Route path="employees" element={<EmployeesPage />} />
               <Route path="positions" element={<PositionsPage />} />
+              
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
                 <Route path=":courseId/create_test" element={<CreateTestPage />} />
                 <Route path=":courseId/create_open_test" element={<CreateOpenTestPage />} />
                 
-                <Route path=":courseId/create_lesson" element={<CreateLessonPage />} />
+                <Route path=":courseId/lessons/create_lesson" element={<CreateLessonPage />} />
+                <Route path=":courseId/lessons/:lessonId" element={<CreateLessonPage />} />
               </Route>
-        
 
               <Route path="categories">
                 <Route index element={<CategoriesPage />} />

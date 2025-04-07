@@ -1,49 +1,77 @@
 .create_test_settings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 30px 0 30px;
-
-  &_switch {
-    span {
-      font-size: 14px;
-      color: #666;
-      transition: all 0.3s ease;
-    }
-
-    &.published {
-      span {
-        color: rgb(97, 97, 209);
-      }
-    }
-  }
-
-  .create_test_settings_title {
-    outline: none;
-    font-size: 28px;
-    font-weight: 600;
-    color: rgb(165, 163, 163);
-  }
-
-  .create_test_settings_switch {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    // padding: 30px 30px 0 30px;
     width: 100%;
 
     &_switch {
-      span {
-        font-size: 14px;
-        color: #666;
-        transition: all 0.3s ease;
-      }
-
-      &.published {
         span {
-          color: rgb(97, 97, 209);
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
         }
-      }
+
+        &.published {
+            span {
+                color: rgb(97, 97, 209);
+            }
+        }
     }
-  }
+
+    // .create_test_settings_title {
+    //   outline: none;
+    //   font-size: 28px;
+    //   font-weight: 600;
+    //   color: rgb(0, 0, 0);
+    // }
+
+    .create_test_settings_title {
+        font-size: 30px;
+        font-weight: bold;
+        border: 1px solid transparent;
+        padding: 10px 10px 10px 5px;
+        box-sizing: border-box;
+        width: 70%;
+
+        white-space: nowrap; // Запрещаем перенос строк
+        overflow: hidden; // Скрываем выходящий за границы текст
+        text-overflow: ellipsis;
+
+        &:hover {
+            box-shadow: none;
+            border: 1px solid #dbdbdb;
+        }
+
+        &:focus {
+            box-shadow: none;
+            border: 1px solid #a0a0a0;
+        }
+    }
+
+    .create_test_settings_switch {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+        width: fit-content;
+
+        span {
+            white-space: nowrap;
+        }
+
+        &_switch {
+            span {
+                font-size: 14px;
+                color: #666;
+                transition: all 0.3s ease;
+            }
+
+            &.published {
+                span {
+                    color: rgb(97, 97, 209);
+                }
+            }
+        }
+    }
 }

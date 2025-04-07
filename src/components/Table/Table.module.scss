@@ -2,12 +2,23 @@
     width: 100%;
     border-bottom: 1px solid rgb(170, 170, 170); /* Черная граница под заголовками */
   }
+
+  .interactive_row {
+    &:hover {
+      background-color: rgb(211, 211, 211);
+      transition: background-color .2s ease-in-out;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+  }
+
   
   .tr {
     display: flex;
     width: 100%;
     border-top: 1px solid rgb(224, 224, 224); /* Серые границы между строками */
-    padding: 10px 0;
+    padding: 10px 20px;
+    box-sizing: border-box;
   }
 
   .tr:nth-child(2) {
@@ -18,10 +29,12 @@
     border-top: none; /* Убираем границу над заголовками */
     border-bottom: 1px solid rgb(170, 170, 170); /* Черная граница под заголовками */
     padding-bottom: 7px;
+    margin-bottom: 10px;;
   }
   
   .tr:last-child {
-    border-bottom: none; /* Граница снизу уже есть у `.table` */
+    border-bottom: none;
+    margin-bottom: 10px; /* Граница снизу уже есть у `.table` */
   }
 
   
