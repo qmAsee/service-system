@@ -1,23 +1,25 @@
-
 .navigation {
-    padding: 30px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
-  
-    ol {
-      display: flex;
-      align-items: center;
-    }
-  
-    a {
-      font-size: 14px;
-      transition: color 0.2s;
+  position: sticky;
+  top: 0;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  z-index: 2;
+
+  ol {
+    display: flex;
+    align-items: center;
+  }
+
+  a {
+    font-size: 14px;
+    transition: color 0.2s;
+    color: #1890ff;
+
+    &:hover {
       color: #1890ff;
-  
-      &:hover {
-        color: #1890ff;
-        background: none;
-        text-decoration: underline;
-      }
+      background: none;
+      text-decoration: underline;
     }
   }
+}

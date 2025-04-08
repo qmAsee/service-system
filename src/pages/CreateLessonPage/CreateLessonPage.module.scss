@@ -4,11 +4,16 @@
   gap: 20px;
 
   .create_lesson_head {
+    position: sticky;
+    top: 83px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 30px 0 30px;
+    padding: 30px;
     gap: 30px;
+    z-index: 2;
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef;
   }
 
   .create_lesson_container {
