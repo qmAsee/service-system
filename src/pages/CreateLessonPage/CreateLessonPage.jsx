@@ -191,12 +191,10 @@ export const CreateLessonPage = () => {
 
     let updatedLessons;
     if (lessonId) {
-      // Обновляем существующий урок
       updatedLessons = course.lessons.map((l) =>
         l.id === lessonId ? lesson : l
       );
     } else {
-      // Создаем новый урок
       updatedLessons = [...course.lessons, lesson];
     }
 

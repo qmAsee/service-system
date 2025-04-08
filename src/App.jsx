@@ -51,9 +51,10 @@ function App() {
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
-                <Route path=":courseId/create_test" element={<CreateTestPage />} />
-                <Route path=":courseId/create_open_test" element={<CreateOpenTestPage />} />
-                
+                <Route path=":courseId/tests/create_test" element={<CreateTestPage />} />
+                <Route path=":courseId/tests/:testId" element={<CreateTestPage />} />
+                <Route path=":courseId/tests/create_open_test" element={<CreateOpenTestPage />} />
+
                 <Route path=":courseId/lessons/create_lesson" element={<CreateLessonPage />} />
                 <Route path=":courseId/lessons/:lessonId" element={<CreateLessonPage />} />
               </Route>

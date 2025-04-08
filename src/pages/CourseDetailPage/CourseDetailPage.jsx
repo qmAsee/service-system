@@ -169,7 +169,11 @@ const CourseDetailPage = () => {
 
   const onRowClick = (row) => {
     console.log(row.original)
-    navigate(`/courses/${courseId}/lessons/${row.original.id}`)
+
+    row.original.type === 'lesson'
+    ? navigate(`/courses/${courseId}/lessons/${row.original.id}`)
+    : navigate(`/courses/${courseId}/tests/${row.original.id}`)
+    // navigate(`/courses/${courseId}/lessons/${row.original.id}`)
   };
 
   return (
@@ -275,12 +279,12 @@ const CourseDetailPage = () => {
                 + Урок
               </Button>
             </Link>
-            <Link to={`/courses/${courseId}/create_test`}>
+            <Link to={`/courses/${courseId}/tests/create_test`}>
               <Button type="primary" onClick={handleSaveCourseNoRedirect}>
                 + Тест
               </Button>
             </Link>
-            <Link to={`/courses/${courseId}/create_open_test`}>
+            <Link to={`/courses/${courseId}/tests/create_open_test`}>
               <Button style={{ backgroundColor: "#2eb03f", color: "white" }}>
                 + Тест с открытым вопросом
               </Button>

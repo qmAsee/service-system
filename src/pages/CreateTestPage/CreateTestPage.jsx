@@ -225,7 +225,6 @@ export const CreateTestPage = () => {
           description={currentTest.description}
           onDescriptionChange={handleDescriptionChange}
         />
-        
         <div className={styles.create_test_add_question}>
           <button
             className={styles.create_test_add_question_btn}
