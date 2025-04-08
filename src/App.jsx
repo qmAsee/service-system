@@ -10,8 +10,6 @@ import { ManagersPage } from './pages/ManagersPage/ManagersPage.jsx';
 import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
 import { CreateTestNewPage } from "./pages/CreateTestNewPage/CreateTestNewPage.jsx"
-import { CreateOpenTestPage } from "./pages/CreateOpenTestPage/CreateOpenTestPage.jsx"
-
 import { CreateLessonPage } from "./pages/CreateLessonPage/CreateLessonPage.jsx"
 import { CategoriesPage } from "./pages/CategoriesPage/CategoriesPage.jsx"
 import { CategoryDetailsPage } from "./pages/CategoryDetailsPage/CategoryDetailsPage.jsx"
