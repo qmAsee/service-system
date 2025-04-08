@@ -4,7 +4,7 @@ import { ConfigProvider, Input, Switch } from 'antd';
 
 const { TextArea } = Input;
 
-export const CreateCourseHead = ({ placeholder, value = '', onChange, onPublishChange, description = '', onDescriptionChange,}) => {
+export const CreateCourseHead = ({ placeholder, value = '', onChange, onPublishChange, description = '', onDescriptionChange}) => {
   const [checked, setChecked] = useState(false);
   const [title, setTitle] = useState(value);
   const titleInputRef = useRef(null);
@@ -69,7 +69,7 @@ export const CreateCourseHead = ({ placeholder, value = '', onChange, onPublishC
         </div>
       </div>
       {/* Добавляем TextArea для описания */}
-      {description && (
+      {onDescriptionChange && (
         <TextArea
           placeholder="Описание теста"
           value={description}
