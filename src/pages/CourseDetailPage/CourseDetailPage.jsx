@@ -89,7 +89,7 @@ const CourseDetailPage = () => {
         type: "lesson",
         title: lesson.title,
         numberOfQuestions: null,
-        isPublished: true,
+        isPublished: lesson.isPublished,
       })),
       ...course.tests.map((test, index) => ({
         number: course.lessons.length + index + 1,
@@ -97,7 +97,7 @@ const CourseDetailPage = () => {
         type: "test",
         title: test.title,
         numberOfQuestions: test.questions?.length || 0,
-        isPublished: true,
+        isPublished: test.isPublished,
       }))
     ];
   }, [course]);
@@ -165,6 +165,11 @@ const CourseDetailPage = () => {
       // Если файл null (сброс изображения)
       dispatch(setCourse({ ...course, image: "" }));
     }
+  };
+
+  const onRowClick = (row) => {
+    console.log(row.original)
+    navigate(`/courses/${courseId}/lessons/${row.original.id}`)
   };
 
   return (
@@ -265,7 +270,7 @@ const CourseDetailPage = () => {
         <div className={styles.course_table_header}>
           <h2 className={styles.course_general_title}>Задания</h2>
           <div className={styles.course_table_header_buttons}>
-            <Link to={`/courses/${courseId}/create_lesson`}>
+            <Link to={`/courses/${courseId}/lessons/create_lesson`}>
               <Button style={{ backgroundColor: "#498fcc", color: "white" }} onClick={handleSaveCourseNoRedirect}>
                 + Урок
               </Button>
@@ -290,8 +295,12 @@ const CourseDetailPage = () => {
             </Button>
           </div>
         </div>
-        <Table data={combinedData} columns={columns} />
-        
+        <Table
+          data={combinedData}
+          columns={columns}
+          onRowClick={(row) => onRowClick(row)}
+          hoverEffect={true}
+        />
       </div>
     </>
   );

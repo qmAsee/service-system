@@ -9,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCourse } from '@/store/slices/courseSlice';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'antd';
 
 
 const initialQuestionState = {
@@ -262,13 +263,21 @@ export const CreateTestPage = () => {
         />
         
         <div className={styles.create_test_actions}>
-          <button 
-            className={styles.create_test_button}
+          <Button
+            type="primary"
             onClick={handleSubmitTest}
             disabled={currentTest.questions.length === 0}
+            size="large"
           >
-            Создать тест
-          </button>
+            Сохранить тест
+          </Button>
+          <Button
+            onClick={() => navigate(`/courses/${courseId}`)}
+            style={{ marginLeft: 16 }}
+            size="large"
+          >
+            Отмена
+          </Button>
         </div>
       </section>
     </>
