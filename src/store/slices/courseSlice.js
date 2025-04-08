@@ -27,6 +27,7 @@ const courseSlice = createSlice({
 
         // обновление существующего курса
         updateCourse: (state, action) => {
+            console.log(state, action)
             const updatedCourse = action.payload;
             state.courses = state.courses.map((course) =>
               course.id === updatedCourse.id ? updatedCourse : course

@@ -1,36 +1,39 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import styles from './CreateTestPage.module.scss';
 import { CustomBreadcrumb } from '../../components/CustomBreadcrumb/CustomBreadcrumb';
-import { AnswerVariant } from '../../components/AnswerVariant/AnswerVariant';
 import { CreateCourseHead } from '../../components/CreateCourseHead/CreateCourseHead';
-import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachImg';
-import { TimeRespond } from '../../components/TimeRespond/TimeRespond';
+import { QuestionList } from '../../components/QuestionList/QuestionList';
+import { QuestionPopup } from '../../components/QuestionPopup/QuestionPopup';
 import { Plus, Check, MoveRight } from "lucide-react";
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCourse } from '@/store/slices/courseSlice';
 import { useNavigate } from 'react-router-dom';
 
+
 const initialQuestionState = {
+  correctAnswersCount: 1,
+  hint: '',
   id: Date.now(),
-  text: '',
   image: null,
+  question: '',
   totalTime: 30,
-  answers: [
+  options: [
     { id: 1, text: '', isCorrect: false },
     { id: 2, text: '', isCorrect: false }
-  ]
+  ],
+  type: 'single',
 };
 
 export const CreateTestPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const courses = useSelector(state => state.courses.courses);
   const { courseId } = useParams();
   const navigate = useNavigate();
 
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+
   const [course, setCourse] = useState({
-    // другие поля курса...
     tests: [{
       id: Date.now().toString(),
       title: '',
@@ -39,15 +42,17 @@ export const CreateTestPage = () => {
       questions: []
     }]
   });
-  console.log(course)
+
   const [currentTestIndex, setCurrentTestIndex] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(initialQuestionState);
+  const [editingQuestionId, setEditingQuestionId] = useState(null);
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState(null);
 
-  // Получаем текущий тест для удобства
   const currentTest = course.tests[currentTestIndex];
 
-  // Мемоизированные обработчики
+  // Обработчики для теста
   const handleTitleChange = useCallback((title) => {
     setCourse(prev => {
       const newTests = [...prev.tests];
@@ -72,123 +77,105 @@ export const CreateTestPage = () => {
     });
   }, [currentTestIndex]);
 
-  const handleQuestionChange = useCallback((e) => {
-    setCurrentQuestion(prev => ({ ...prev, text: e.target.value }));
-  }, []);
-
-  const handleTimeChange = useCallback((totalTime) => {
-    setCurrentQuestion(prev => ({ ...prev, totalTime }));
-  }, []);
-
-  const handleImageUpload = useCallback((image) => {
-    setCurrentQuestion(prev => ({ ...prev, image }));
-  }, []);
-
-  const handleAnswerChange = useCallback((id, text) => {
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: prev.answers.map(answer => 
-        answer.id === id ? { ...answer, text } : answer
-      )
-    }));
-  }, []);
-
-  const handleAnswerCorrectChange = useCallback((id) => {
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: prev.answers.map(answer => ({
-        ...answer,
-        isCorrect: answer.id === id
-      }))
-    }));
-  }, []);
-
-  const addAnswerVariant = useCallback(() => {
-    const newId = currentQuestion.answers.length > 0 
-      ? Math.max(...currentQuestion.answers.map(a => a.id)) + 1 
-      : 1;
-      
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: [
-        ...prev.answers,
-        { id: newId, text: '', isCorrect: false }
-      ]
-    }));
-  }, [currentQuestion.answers.length]);
-
-  const deleteAnswerVariant = useCallback((id) => {
-    if (currentQuestion.answers.length <= 2) return;
-    
-    setCurrentQuestion(prev => ({
-      ...prev,
-      answers: prev.answers.filter(answer => answer.id !== id)
-    }));
-  }, [currentQuestion.answers.length]);
-
-  const resetCurrentQuestion = useCallback(() => {
+  // Управление вопросами
+  const openAddQuestionPopup = useCallback(() => {
     setCurrentQuestion(initialQuestionState);
+    setEditingQuestionId(null);
+    setIsPopupOpen(true);
   }, []);
 
-  const closePopup = useCallback(() => {
-    setIsPopupOpen(false);
-    resetCurrentQuestion();
-  }, [resetCurrentQuestion]);
-
-  const handleOverlayClick = useCallback((e) => {
-    if (e.target === e.currentTarget) {
-      closePopup();
+  const openEditQuestionPopup = useCallback((questionId) => {
+    const questionToEdit = currentTest.questions.find(q => q.id === questionId);
+    if (questionToEdit) {
+      setCurrentQuestion(questionToEdit);
+      setEditingQuestionId(questionId);
+      setIsPopupOpen(true);
     }
-  }, [closePopup]);
+  }, [currentTest.questions]);
 
-  const addQuestion = useCallback((addAnother = false) => {
-    if (!currentQuestion.text.trim()) return;
+  const saveQuestion = useCallback((questionData, isEditing, addAnother = false) => {
+    if (!questionData.question.trim()) {
+      alert('Пожалуйста, введите текст вопроса');
+      return;
+    }
+
+    const hasEmptyOptions = questionData.options.some(o => !o.text.trim());
+    const hasNoCorrectOption = !questionData.options.some(o => o.isCorrect);
     
-    const hasEmptyAnswers = currentQuestion.answers.some(a => !a.text.trim());
-    const hasNoCorrectAnswer = !currentQuestion.answers.some(a => a.isCorrect);
-    
-    if (hasEmptyAnswers) {
+    if (hasEmptyOptions) {
       alert('Все варианты ответов должны быть заполнены');
       return;
     }
     
-    if (hasNoCorrectAnswer) {
+    if (hasNoCorrectOption) {
       alert('Нужно указать правильный вариант ответа');
       return;
     }
-    
+
     setCourse(prev => {
       const newTests = [...prev.tests];
-      newTests[currentTestIndex] = {
-        ...newTests[currentTestIndex],
-        questions: [
-          ...newTests[currentTestIndex].questions,
-          { ...currentQuestion }
-        ]
-      };
+      if (isEditing) {
+        newTests[currentTestIndex] = {
+          ...newTests[currentTestIndex],
+          questions: newTests[currentTestIndex].questions.map(q => 
+            q.id === editingQuestionId ? questionData : q
+          )
+        };
+      } else {
+        newTests[currentTestIndex] = {
+          ...newTests[currentTestIndex],
+          questions: [
+            ...newTests[currentTestIndex].questions,
+            questionData
+          ]
+        };
+      }
       return { ...prev, tests: newTests };
     });
-    
+
     if (addAnother) {
-      resetCurrentQuestion();
+      setCurrentQuestion(initialQuestionState);
+      setEditingQuestionId(null);
     } else {
-      closePopup();
+      setIsPopupOpen(false);
     }
-  }, [currentQuestion, closePopup, resetCurrentQuestion, currentTestIndex]);
+  }, [currentTestIndex, editingQuestionId]);
 
-  // Эффект для управления скроллом
-  useEffect(() => {
-    document.body.style.overflow = isPopupOpen ? 'hidden' : '';
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isPopupOpen]);
+  const confirmDeleteQuestion = useCallback((questionId) => {
+    setQuestionToDelete(questionId);
+    setIsConfirmModalVisible(true);
+  }, []);
 
-  const handleSubmitTest =  () => {
+  const deleteQuestion = useCallback(() => {
+    if (questionToDelete) {
+      setCourse(prev => {
+        const newTests = [...prev.tests];
+        newTests[currentTestIndex] = {
+          ...newTests[currentTestIndex],
+          questions: newTests[currentTestIndex].questions.filter(q => q.id !== questionToDelete)
+        };
+        return { ...prev, tests: newTests };
+      });
+      setIsConfirmModalVisible(false);
+    }
+  }, [currentTestIndex, questionToDelete]);
+
+  const closePopup = useCallback(() => {
+    setIsPopupOpen(false);
+    setCurrentQuestion(initialQuestionState);
+    setEditingQuestionId(null);
+  }, []);
+
+  // Сохранение теста
+  const handleSubmitTest = useCallback(() => {
     const course = courses.find(c => c.id === courseId);
-
     if (!course) {
       alert(`Курс с id ${courseId} не найден`);
+      return;
+    }
+
+    if (currentTest.questions.length === 0) {
+      alert('Добавьте хотя бы один вопрос');
       return;
     }
 
@@ -196,60 +183,13 @@ export const CreateTestPage = () => {
       ...course,
       tests: [
         ...course.tests,
-        test
+        currentTest
       ]
-    }
+    };
 
     dispatch(updateCourse(updatedCourse));
-    navigate(-1);
-  }
-
-  // Мемоизированное отображение вопросов
-  const questionsList = useMemo(() => {
-    if (currentTest.questions.length === 0) {
-      return (
-        <div 
-          className={styles.create_test_add_question_block}
-          onClick={() => setIsPopupOpen(true)}
-        >
-          <span>Добавьте вопросы</span>
-        </div>
-      );
-    }
-
-    return currentTest.questions.map((question, index) => (
-      <div key={question.id} className={styles.question_item}>
-        <h3>Вопрос {index + 1}</h3>
-        <p>{question.text}</p>
-        {question.image && (
-          <div className={styles.question_image}>
-            <img 
-              src={URL.createObjectURL(question.image)} 
-              alt="Вопрос" 
-            />
-          </div>
-        )}
-        <p>Время: {question.totalTime} сек.</p>
-        <div className={styles.answers_list}>
-          {question.answers.map((answer, i) => (
-            <div 
-              key={answer.id} 
-              className={`${styles.answer} ${answer.isCorrect && showCorrectAnswers ? styles.correct : ''}`}
-            >
-              {i + 1}. {answer.text}
-              {answer.isCorrect && showCorrectAnswers && (
-                <span className={styles.correct_marker}>✓</span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    ));
-  }, [currentTest.questions, showCorrectAnswers]);
-
-  function loglog() {
-    console.log(test)
-  }
+    navigate(`/courses/${courseId}`);
+  }, [courses, courseId, currentTest, dispatch, navigate]);
 
   return (
     <>
@@ -258,91 +198,37 @@ export const CreateTestPage = () => {
           {title: <Link to="/dashboard">Главная</Link>},
           {title: <Link to="/courses">Учебные курсы</Link>},
           {title: <Link to={`/courses/${courseId}`}>Редактирование курса</Link>},
-          {title: 'Создание урока',}
+          {title: 'Создание теста'}
         ]}
-        separator={<MoveRight size={14} />}/>
-      {isPopupOpen && (
-        <div className={styles.popup_overlay} onClick={handleOverlayClick}>
-          <div className={styles.popup_content}>
-            <h2>Добавить вопрос</h2>
-            
-            <div className={styles.popup_question}>
-              <h3 className={styles.popup_content_title}>Вопрос</h3>
-              <textarea 
-                value={currentQuestion.text}
-                onChange={handleQuestionChange}
-                placeholder='Напишите вопрос' 
-              />
-            </div>
-            
-            <div className={styles.popup_image}>
-              <h3 className={styles.popup_content_title}>Изображение</h3>
-              <CreateAttachImg 
-                onImageUpload={handleImageUpload} 
-                currentImage={currentQuestion.image}
-              />
-            </div>
-            
-            <div className={styles.popup_time}>
-              <TimeRespond 
-                initialTime={currentQuestion.totalTime} 
-                onTimeChange={handleTimeChange}
-              />
-            </div>
-            
-            <div className={styles.popup_variants}>
-              <h3 className={styles.popup_content_title}>Варианты ответа</h3>
-              {currentQuestion.answers.map((answer) => (
-                <AnswerVariant
-                  key={answer.id}
-                  id={answer.id}
-                  text={answer.text}
-                  isCorrect={answer.isCorrect}
-                  onChangeText={handleAnswerChange}
-                  onChangeCorrect={handleAnswerCorrectChange}
-                  onDelete={deleteAnswerVariant}
-                  canDelete={currentQuestion.answers.length > 2}
-                  showCorrect={showCorrectAnswers}
-                />
-              ))}
-            </div>
-            <div className={styles.popup_variants_btn}>
-              <button onClick={addAnswerVariant}>
-                <Plus size={14} />
-                Добавить ответ
-              </button>
-            </div>
-            
-            <div className={styles.popup_btn}>
-              <button 
-                className={styles.popup_btn_close} 
-                onClick={closePopup}
-              >
-                Отмена
-              </button>
-              
-              <div className={styles.popup_btn_add}>
-                <button onClick={() => addQuestion(false)}>Добавить</button>
-                <button onClick={() => addQuestion(true)}>Добавить и создать еще один</button>
-              </div>  
-            </div>
-          </div>
-        </div>
-      )}
-      
+        separator={<MoveRight size={14} />}
+      />
+
+      <QuestionPopup 
+        isOpen={isPopupOpen}
+        onClose={closePopup}
+        question={currentQuestion}
+        isEditing={editingQuestionId}
+        onSave={saveQuestion}
+        setQuestion={setCurrentQuestion}
+        showCorrectAnswers={showCorrectAnswers}
+        isOpenQuestion={false} // This indicates it's a regular question with variants
+      />
+
       <section className={styles.create_test}>
         <CreateCourseHead 
-          placeholder="Название теста" 
+          placeholder="Название теста"
           value={currentTest.title}
           onChange={handleTitleChange}
           publishStatus={currentTest.isPublished}
           onPublishChange={handlePublishChange}
+          description={currentTest.description}
+          onDescriptionChange={handleDescriptionChange}
         />
         
         <div className={styles.create_test_add_question}>
           <button
             className={styles.create_test_add_question_btn}
-            onClick={() => setIsPopupOpen(true)}
+            onClick={openAddQuestionPopup}
           >
             <Plus className="w-5 h-5" />
             Добавить вопрос
@@ -355,7 +241,7 @@ export const CreateTestPage = () => {
               onChange={() => setShowCorrectAnswers(!showCorrectAnswers)}
               className="hidden"
             />
-            <div  className={`w-5 h-5 rounded flex items-center justify-center 
+            <div className={`w-5 h-5 rounded flex items-center justify-center 
               ${showCorrectAnswers ? 'bg-blue-500' : 'bg-gray-300'}`}
             >
               {showCorrectAnswers && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
@@ -363,11 +249,26 @@ export const CreateTestPage = () => {
             <label htmlFor="showCorrectAnswers">
               Показывать тестируемому верные ответы
             </label>
-            <button onClick={loglog}></button>
           </div>
         </div>
-        <div className={styles.questions_list}>
-          {questionsList}
+        
+        <QuestionList
+          questions={currentTest.questions}
+          onEdit={openEditQuestionPopup}
+          onDelete={confirmDeleteQuestion}
+          onAddQuestion={openAddQuestionPopup}
+          showCorrectAnswers={showCorrectAnswers}
+          isOpenQuestionType={true}
+        />
+        
+        <div className={styles.create_test_actions}>
+          <button 
+            className={styles.create_test_button}
+            onClick={handleSubmitTest}
+            disabled={currentTest.questions.length === 0}
+          >
+            Создать тест
+          </button>
         </div>
       </section>
     </>

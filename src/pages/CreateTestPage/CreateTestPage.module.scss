@@ -112,6 +112,30 @@
       }
     }
   }
+  .create_test_actions {
+    display: flex;
+    padding: 10px 30px 0 30px;
+  }
+  
+  .create_test_button {
+    padding: 10px 15px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: #2563eb;
+    }
+    
+    &:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+  }
 }
 
 .popup_overlay {

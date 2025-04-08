@@ -81,7 +81,7 @@ const CourseDetailPage = () => {
   // Оптимизированное создание табличных данных
   const combinedData = useMemo(() => {
     if (!course) return [];
-
+  
     return [
       ...course.lessons.map((lesson, index) => ({
         number: index + 1,

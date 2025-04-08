@@ -1,0 +1,97 @@
+.popup_overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	z-index: 1000;
+	animation: fadeIn 0.3s;
+	overflow-y: scroll;
+	padding: 20px 0;
+
+
+	.popup_content {
+		background-color: white;
+		padding: 25px;
+		border-radius: 8px;
+		max-width: 600px;
+		width: 90%;
+		height: fit-content;
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		h2 {
+			font-size: 24px;
+			font-weight: 600;
+			margin: 0;
+		}
+
+		.popup_question,
+		.popup_comment {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.popup_content_title {
+			font-size: 18px;
+			font-weight: 500;
+		}
+
+		.popup_variants_btn {
+
+			button {
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 5px;
+				background-color: rgb(121, 121, 151);
+				padding: 0 10px;
+				height: 30px;
+				border-radius: 3px;
+				color: #fff;
+				line-height: 100%;
+			}
+		}
+
+		.popup_question textarea,
+		.popup_comment textarea {
+			min-height: 60px;
+			height: 80px;
+			border: 1px solid rgb(224, 222, 222);
+			padding: 10px;
+			border-radius: 5px;
+			outline: none;
+		}
+
+		.popup_btn {
+			display: flex;
+			justify-content: space-between;
+
+			.popup_btn_close {
+				background-color: rgb(73, 143, 204);
+				color: white;
+				padding: 10px 15px;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			.popup_btn_add {
+				display: flex;
+				gap: 10px;
+
+				button {
+					background-color: rgb(46, 176, 63);
+					color: white;
+					padding: 10px 15px;
+					border-radius: 5px;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}

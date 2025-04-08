@@ -7,20 +7,10 @@ export const CreateAttachImg = ({ onImageUpload, currentImage }) => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (currentImage) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result);
-  //     };
-  //     reader.readAsDataURL(currentImage);
-  //   } else {
-  //     setImagePreview(null);
-  //   }
-  // }, [currentImage]);
 
   useEffect(() => {
     setImagePreview(currentImage || null);
+    console.log(currentImage)
   }, [currentImage]);
 
   const resetImage = () => {

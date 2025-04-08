@@ -99,6 +99,7 @@
   }
 
   .popup_variants_block_del {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,5 +108,4 @@
     width: 30px;
     border: 1px solid rgb(224, 222, 222);
   }
-
 }
