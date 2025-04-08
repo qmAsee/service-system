@@ -31,7 +31,8 @@
 		}
 
 		.popup_question,
-		.popup_comment {
+		.popup_comment,
+		.popup_correct_answer {
 			display: flex;
 			flex-direction: column;
 		}
@@ -49,7 +50,7 @@
 				align-items: center;
 				justify-content: center;
 				gap: 5px;
-				background-color: rgb(121, 121, 151);
+				background-color: rgb(46, 176, 63);
 				padding: 0 10px;
 				height: 30px;
 				border-radius: 3px;
@@ -59,7 +60,8 @@
 		}
 
 		.popup_question textarea,
-		.popup_comment textarea {
+		.popup_comment textarea,
+		.popup_correct_answer textarea {
 			min-height: 60px;
 			height: 80px;
 			border: 1px solid rgb(224, 222, 222);
@@ -93,5 +95,15 @@
 				}
 			}
 		}
+	}
+}
+/* Анимация появления */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
 	}
 }

@@ -15,6 +15,7 @@ export const CreateLessonPage = () => {
   const dispatch = useDispatch()
   const courses = useSelector(state => state.courses.courses);
   const { courseId, lessonId } = useParams();
+  console.log(lessonId)
   const navigate = useNavigate();
 
   const [showContentMenu, setShowContentMenu] = useState(false);

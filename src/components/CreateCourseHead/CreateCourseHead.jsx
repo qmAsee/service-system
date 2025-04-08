@@ -42,8 +42,8 @@ export const CreateCourseHead = ({ placeholder, value = '', onChange, isPublishe
           theme={{
             components: {
               Switch: {
-                colorPrimary: 'rgb(97, 97, 209)',
-                colorPrimaryHover: 'rgb(77, 77, 189)',
+                colorPrimary: '#1890ff',
+                colorPrimaryHover: '#1890ff',
                 colorBgContainer: '#f0f0f0',
                 handleBg: isPublished ? '#fff' : '#f0f0f0',
               },

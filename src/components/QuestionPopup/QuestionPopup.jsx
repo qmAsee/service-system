@@ -25,6 +25,10 @@ export const QuestionPopup = ({
     setQuestion(prev => ({ ...prev, hint: e.target.value }));
   };
 
+  const handleCorrectAnswerChange = (e) => {
+    setQuestion(prev => ({ ...prev, correctAnswers: e.target.value }));
+  };
+
   const handleTimeChange = (totalTime) => {
     setQuestion(prev => ({ ...prev, totalTime }));
   };
@@ -117,16 +121,18 @@ export const QuestionPopup = ({
           />
         </div>
 
-        <div className={styles.popup_comment}>
-          <h3 className={styles.popup_content_title}>Комментарий</h3>
-          <textarea
-            value={question.hint}
-            onChange={handleCommentChange}
-            placeholder='Оставьте подсказку для тестируемых, где искать правильный ответ'
-            rows={2}
-          />
-        </div>
-        {!isOpenQuestion && (
+        {isOpenQuestion ? (
+          <div className={styles.popup_correct_answer}>
+            <h3 className={styles.popup_content_title}>Правильный ответ *</h3>
+            <textarea
+              value={question.correctAnswers}
+              onChange={handleCorrectAnswerChange}
+              placeholder='Введите правильный ответ'
+              rows={2}
+              required
+            />
+          </div>
+        ) : (
           <>
             <div className={styles.popup_variants}>
               <h3 className={styles.popup_content_title}>Варианты ответа *</h3>
@@ -152,6 +158,17 @@ export const QuestionPopup = ({
             </div>
           </>
         )}
+
+        <div className={styles.popup_comment}>
+          <h3 className={styles.popup_content_title}>Комментарий</h3>
+          <textarea
+            value={question.hint}
+            onChange={handleCommentChange}
+            placeholder='Оставьте подсказку для тестируемых, где искать правильный ответ'
+            rows={2}
+          />
+        </div>
+
         <div className={styles.popup_btn}>
           <button
             className={styles.popup_btn_close}

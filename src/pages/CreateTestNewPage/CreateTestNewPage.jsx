@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import styles from './CreateTestPage.module.scss';
+import styles from './CreateTestNewPage.module.scss';
 import { CustomBreadcrumb } from '../../components/CustomBreadcrumb/CustomBreadcrumb';
 import { CreateCourseHead } from '../../components/CreateCourseHead/CreateCourseHead';
 import { QuestionList } from '../../components/QuestionList/QuestionList';
@@ -9,29 +9,17 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateCourse } from '@/store/slices/courseSlice';
 import { useNavigate } from 'react-router-dom';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Input } from 'antd';
 
-const initialQuestionState = {
-  correctAnswersCount: 1,
-  hint: '',
-  id: Date.now(),
-  image: null,
-  question: '',
-  totalTime: 30,
-  options: [
-    { id: 1, text: '', isCorrect: false },
-    { id: 2, text: '', isCorrect: false }
-  ],
-  type: 'single',
-};
+const { TextArea } = Input;
 
-export const CreateTestPage = () => {
+export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
+  const [isTypeTest, setIsTypeTest] = useState(initialTypeTest ?? false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const courses = useSelector(state => state.courses.courses);
   const { courseId, testId } = useParams();
   
-
   const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
   const [test, setTest] = useState({
     id: `test_${Date.now()}`,
@@ -42,11 +30,43 @@ export const CreateTestPage = () => {
   });
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(initialQuestionState);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
   const [editingQuestionId, setEditingQuestionId] = useState(null);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState(null);
   const [isNewTest, setIsNewTest] = useState(!testId);
+
+  // Начальное состояние вопроса в зависимости от типа теста
+  const getInitialQuestionState = useCallback(() => {
+    return isTypeTest 
+      ? {
+          correctAnswersCount: 1,
+          hint: '',
+          id: Date.now(),
+          image: null,
+          question: '',
+          totalTime: 30,
+          options: [
+            { id: 1, text: '', isCorrect: false },
+            { id: 2, text: '', isCorrect: false }
+          ],
+          type: 'single',
+        }
+      : {
+          correctAnswers: '',
+          correctAnswersCount: 1,
+          hint: '',
+          id: Date.now(),
+          image: null,
+          question: '',
+          totalTime: 30,
+          type: 'open',
+        };
+  }, [isTypeTest]);
+
+  useEffect(() => {
+    setCurrentQuestion(getInitialQuestionState());
+  }, [getInitialQuestionState]);
 
   useEffect(() => {
     if (testId) {
@@ -56,17 +76,25 @@ export const CreateTestPage = () => {
         if (existingTest) {
           setTest(existingTest);
           setIsNewTest(false);
+          if (initialTypeTest === undefined) {
+            const derivedTypeTest = existingTest.questions?.[0]?.type !== 'open';
+            setIsTypeTest(derivedTypeTest);
+          }
         }
       }
     }
-  }, [courseId, testId, courses]);
+  }, [courseId, testId, courses, initialTypeTest]);
+
+  const resetQuestionState = useCallback(() => {
+    setCurrentQuestion(getInitialQuestionState());
+  }, [getInitialQuestionState]);
 
   const handleTitleChange = useCallback((title) => {
     setTest(prev => ({ ...prev, title }));
   }, []);
 
-  const handleDescriptionChange = useCallback((description) => {
-    setTest(prev => ({ ...prev, description }));
+  const handleDescriptionChange = useCallback((e) => {
+    setTest(prev => ({ ...prev, description: e.target.value }));
   }, []);
 
   const handlePublishChange = useCallback((isPublished) => {
@@ -74,7 +102,7 @@ export const CreateTestPage = () => {
   }, []);
 
   const openAddQuestionPopup = () => {
-    setCurrentQuestion(initialQuestionState);
+    resetQuestionState();
     setEditingQuestionId(null);
     setIsPopupOpen(true);
   };
@@ -88,24 +116,37 @@ export const CreateTestPage = () => {
     }
   };
 
-  const saveQuestion = useCallback((questionData, isEditing, addAnother = false) => {
+  const validateQuestion = (questionData) => {
     if (!questionData.question.trim()) {
       alert('Пожалуйста, введите текст вопроса');
-      return;
+      return false;
     }
+    
+    if (isTypeTest) {
+      const hasEmptyOptions = questionData.options.some(o => !o.text.trim());
+      const hasNoCorrectOption = !questionData.options.some(o => o.isCorrect);
 
-    const hasEmptyOptions = questionData.options.some(o => !o.text.trim());
-    const hasNoCorrectOption = !questionData.options.some(o => o.isCorrect);
+      if (hasEmptyOptions) {
+        alert('Все варианты ответов должны быть заполнены');
+        return false;
+      }
 
-    if (hasEmptyOptions) {
-      alert('Все варианты ответов должны быть заполнены');
-      return;
+      if (hasNoCorrectOption) {
+        alert('Нужно указать правильный вариант ответа');
+        return false;
+      }
+    } else {
+      if (!questionData.correctAnswers.trim()) {
+        alert('Укажите правильный ответ для вопроса');
+        return false;
+      }
     }
+    
+    return true;
+  };
 
-    if (hasNoCorrectOption) {
-      alert('Нужно указать правильный вариант ответа');
-      return;
-    }
+  const saveQuestion = useCallback((questionData, isEditing, addAnother = false) => {
+    if (!validateQuestion(questionData)) return;
 
     setTest(prev => {
       if (isEditing) {
@@ -124,15 +165,12 @@ export const CreateTestPage = () => {
     });
 
     if (addAnother) {
-      setCurrentQuestion({
-        ...initialQuestionState,
-        id: Date.now()
-      });
+      resetQuestionState();
       setEditingQuestionId(null);
     } else {
       setIsPopupOpen(false);
     }
-  }, [editingQuestionId]);
+  }, [editingQuestionId, isTypeTest]);
 
   const confirmDeleteQuestion = useCallback((questionId) => {
     setQuestionToDelete(questionId);
@@ -146,12 +184,13 @@ export const CreateTestPage = () => {
         questions: prev.questions.filter(q => q.id !== questionToDelete)
       }));
       setIsConfirmModalVisible(false);
-      message.success('Вопрос удален');
+      alert('Вопрос удален');
     }
   };
+
   const closePopup = () => {
     setIsPopupOpen(false);
-    setCurrentQuestion(initialQuestionState);
+    resetQuestionState();
     setEditingQuestionId(null);
   };
 
@@ -168,7 +207,7 @@ export const CreateTestPage = () => {
     }
     
     if (!test.title.trim()) {
-      message.warning('Введите название теста');
+      alert('Введите название теста');
       return;
     }
 
@@ -180,6 +219,7 @@ export const CreateTestPage = () => {
     };
 
     dispatch(updateCourse(updatedCourse));
+    alert(isNewTest ? 'Тест успешно создан' : 'Тест успешно обновлен');
     navigate(`/courses/${courseId}`);
   }, [courses, courseId, test, isNewTest, testId, dispatch, navigate]);
 
@@ -203,7 +243,7 @@ export const CreateTestPage = () => {
         onSave={saveQuestion}
         setQuestion={setCurrentQuestion}
         showCorrectAnswers={showCorrectAnswers}
-        isOpenQuestion={false}
+        isOpenQuestion={!isTypeTest}
       />
 
       <Modal
@@ -218,19 +258,24 @@ export const CreateTestPage = () => {
       </Modal>
 
       <section className={styles.create_test}>
-        <div className={styles.create_test_head}>
-          <CreateCourseHead
-            placeholder="Название теста"
-            value={test.title}
-            onChange={handleTitleChange}
-            publishStatus={test.isPublished}
-            onPublishChange={handlePublishChange}
-            description={test.description}
-            onDescriptionChange={handleDescriptionChange}
+        <div className={styles.create_test_head_container}>
+          <div className={styles.create_test_head}>
+            <CreateCourseHead
+              placeholder="Название теста"
+              value={test.title}
+              onChange={handleTitleChange}
+              toggleIsPublished={handlePublishChange}
+              isPublished={test.isPublished}
+            />
+            <Button type='primary' onClick={handleSubmitTest}>
+              {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
+            </Button>
+          </div>
+          <TextArea
+            value={test.description}
+            onChange={handleDescriptionChange}
+            placeholder="Добавьте описание теста"
           />
-          <Button type='primary' onClick={handleSubmitTest}>
-            {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
-          </Button>
         </div>
 
         <div className={styles.create_test_add_question}>
@@ -241,23 +286,26 @@ export const CreateTestPage = () => {
             <Plus className="w-5 h-5" />
             Добавить вопрос
           </button>
-          <div className={styles.create_test_add_question_show}>
-            <input
-              type="checkbox"
-              id="showCorrectAnswers"
-              checked={showCorrectAnswers}
-              onChange={() => setShowCorrectAnswers(!showCorrectAnswers)}
-              className="hidden"
-            />
-            <div className={`w-5 h-5 rounded flex items-center justify-center 
-              ${showCorrectAnswers ? 'bg-blue-500' : 'bg-gray-300'}`}
-            >
-              {showCorrectAnswers && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
+          
+          {isTypeTest && (
+            <div className={styles.create_test_add_question_show}>
+              <input
+                type="checkbox"
+                id="showCorrectAnswers"
+                checked={showCorrectAnswers}
+                onChange={() => setShowCorrectAnswers(!showCorrectAnswers)}
+                className="hidden"
+              />
+              <div className={`w-5 h-5 rounded flex items-center justify-center 
+                ${showCorrectAnswers ? 'bg-blue-500' : 'bg-gray-300'}`}
+              >
+                {showCorrectAnswers && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
+              </div>
+              <label htmlFor="showCorrectAnswers">
+                Показывать тестируемому верные ответы
+              </label>
             </div>
-            <label htmlFor="showCorrectAnswers">
-              Показывать тестируемому верные ответы
-            </label>
-          </div>
+          )}
         </div>
 
         <QuestionList
@@ -266,7 +314,7 @@ export const CreateTestPage = () => {
           onDelete={confirmDeleteQuestion}
           onAddQuestion={openAddQuestionPopup}
           showCorrectAnswers={showCorrectAnswers}
-          isOpenQuestionType={false}
+          isOpenQuestionType={!isTypeTest}
         />
       </section>
     </>

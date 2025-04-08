@@ -5,9 +5,9 @@
 
   .create_test_head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 30px 30px 0 30px;
-    justify-content: space-between;
     gap: 30px;
   }
 
@@ -35,210 +35,196 @@
     }
   }
 
-  .questions_list {
-    margin-top: 24px;
-    border-radius: 8px;
-    background-color: #f8f9fa;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  // .questions_list {
+  //   margin-top: 24px;
+  //   border-radius: 8px;
+  //   background-color: #f8f9fa;
+  //   padding: 16px;
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
-    .question_item {
-      padding: 16px;
-      margin-bottom: 16px;
-      background-color: white;
-      border-radius: 6px;
-      border-left: 4px solid #3f51b5;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
+  //   .question_item {
+  //     padding: 16px;
+  //     margin-bottom: 16px;
+  //     background-color: white;
+  //     border-radius: 6px;
+  //     border-left: 4px solid #3f51b5;
+  //     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  //     transition: all 0.2s ease;
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
+  //     &:hover {
+  //       transform: translateY(-2px);
+  //       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  //     }
 
-      h3 {
-        margin: 0 0 8px 0;
-        color: #3f51b5;
-        font-size: 18px;
-        font-weight: 600;
-      }
+  //     h3 {
+  //       margin: 0 0 8px 0;
+  //       color: #3f51b5;
+  //       font-size: 18px;
+  //       font-weight: 600;
+  //     }
 
-      p {
-        margin: 8px 0;
-        color: #424242;
-        font-size: 15px;
-        line-height: 1.5;
-      }
+  //     p {
+  //       margin: 8px 0;
+  //       color: #424242;
+  //       font-size: 15px;
+  //       line-height: 1.5;
+  //     }
 
-      .question_image {
-        margin: 12px 0;
-        max-width: 100%;
-        border-radius: 4px;
-        overflow: hidden;
+  //     .question_image {
+  //       margin: 12px 0;
+  //       max-width: 100%;
+  //       border-radius: 4px;
+  //       overflow: hidden;
 
-        img {
-          max-width: 100%;
-          max-height: 200px;
-          object-fit: contain;
-          border-radius: 4px;
-        }
-      }
-    }
+  //       img {
+  //         max-width: 100%;
+  //         max-height: 200px;
+  //         object-fit: contain;
+  //         border-radius: 4px;
+  //       }
+  //     }
+  //   }
 
-    .create_test_add_question_block {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 120px;
-      background-color: white;
-      border: 2px dashed #d1d5db;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+  //   .create_test_add_question_block {
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: center;
+  //     height: 120px;
+  //     background-color: white;
+  //     border: 2px dashed #d1d5db;
+  //     border-radius: 8px;
+  //     cursor: pointer;
+  //     transition: all 0.2s ease;
 
-      &:hover {
-        border-color: #3f51b5;
-        background-color: #f0f4ff;
+  //     &:hover {
+  //       border-color: #3f51b5;
+  //       background-color: #f0f4ff;
 
-        span {
-          color: #3f51b5;
-        }
-      }
+  //       span {
+  //         color: #3f51b5;
+  //       }
+  //     }
 
-      span {
-        color: #6b7280;
-        font-size: 16px;
-        font-weight: 500;
-      }
-    }
-  }
-  .create_test_actions {
-    display: flex;
-    padding: 10px 30px 0 30px;
-  }
-  
-  .create_test_button {
-    padding: 10px 15px;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    
-    &:hover {
-      background-color: #2563eb;
-    }
-    
-    &:disabled {
-      background-color: #9ca3af;
-      cursor: not-allowed;
-    }
-  }
+  //     span {
+  //       color: #6b7280;
+  //       font-size: 16px;
+  //       font-weight: 500;
+  //     }
+  //   }
+  // }
+
+  // .create_test_button {
+  //   padding: 10px 15px;
+  //   background-color: #3b82f6;
+  //   color: white;
+  //   border: none;
+  //   border-radius: 5px;
+  //   font-weight: 500;
+  //   cursor: pointer;
+  //   transition: background-color 0.2s;
+
+  //   &:hover {
+  //     background-color: #2563eb;
+  //   }
+
+  //   &:disabled {
+  //     background-color: #9ca3af;
+  //     cursor: not-allowed;
+  //   }
+  // }
 }
 
-.popup_overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s;
-  overflow-y: scroll;
-  padding: 20px 0;
+// .popup_overlay {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: rgba(0, 0, 0, 0.5);
+//   display: flex;
+//   justify-content: center;
+//   z-index: 1000;
+//   animation: fadeIn 0.3s;
+//   overflow-y: scroll;
+//   padding: 20px 0;
 
 
-  .popup_content {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  // .popup_content {
+  //   background-color: white;
+  //   padding: 25px;
+  //   border-radius: 8px;
+  //   max-width: 600px;
+  //   width: 90%;
+  //   height: fit-content;
+  //   display: flex;
+  //   flex-direction: column;
+  //   gap: 20px;
 
-    h2 {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0;
-    }
+  //   h2 {
+  //     font-size: 24px;
+  //     font-weight: 600;
+  //     margin: 0;
+  //   }
 
-    .popup_question {
-      display: flex;
-      flex-direction: column;
-    }
+    // .popup_question {
+    //   display: flex;
+    //   flex-direction: column;
+    // }
 
-    .popup_content_title {
-      font-size: 18px;
-      font-weight: 500;
-    }
+    // .popup_content_title {
+    //   font-size: 18px;
+    //   font-weight: 500;
+    // }
 
-    .popup_question textarea {
-      height: 80px;
-      border: 1px solid rgb(224, 222, 222);
-      padding: 10px;
-      border-radius: 5px;
-      outline: none;
-    }
+    // .popup_question textarea {
+    //   height: 80px;
+    //   border: 1px solid rgb(224, 222, 222);
+    //   padding: 10px;
+    //   border-radius: 5px;
+    //   outline: none;
+    // }
 
-    .popup_variants_btn {
-      display: flex;
-      justify-content: left;
+    // .popup_variants_btn {
+    //   display: flex;
+    //   justify-content: left;
 
-      button {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        background-color: rgb(121, 121, 151);
-        padding: 0 15px;
-        height: 30px;
-        border-radius: 3px;
-        color: #fff;
-        line-height: 100%;
-      }
-    }
-    .popup_btn {
-      display: flex;
-      justify-content: space-between;
+    //   button {
+    //     display: flex;
+    //     align-items: center;
+    //     gap: 5px;
+    //     background-color: rgb(121, 121, 151);
+    //     padding: 0 15px;
+    //     height: 30px;
+    //     border-radius: 3px;
+    //     color: #fff;
+    //     line-height: 100%;
+    //   }
+    // }
 
-      .popup_btn_close {
-        background-color: rgb(73, 143, 204);
-        color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+    // .popup_btn {
+    //   display: flex;
+    //   justify-content: space-between;
 
-      .popup_btn_add {
-        display: flex;
-        gap: 10px;
+    //   .popup_btn_close {
+    //     background-color: rgb(73, 143, 204);
+    //     color: white;
+    //     padding: 10px 15px;
+    //     border-radius: 5px;
+    //     cursor: pointer;
+    //   }
 
-        button {
-          background-color: rgb(46, 176, 63);
-          color: white;
-          padding: 10px 15px;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-      }
-    }
-  }
-}
+    //   .popup_btn_add {
+    //     display: flex;
+    //     gap: 10px;
 
-/* Анимация появления */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
+    //     button {
+    //       background-color: rgb(46, 176, 63);
+    //       color: white;
+    //       padding: 10px 15px;
+    //       border-radius: 5px;
+    //       cursor: pointer;
+    //     }
+    //   }
+    // }
+//   }
+// }

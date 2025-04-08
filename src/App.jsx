@@ -9,7 +9,7 @@ import { RestaurantsPage } from './pages/RestaurantsPage/RestaurantsPage.jsx';
 import { ManagersPage } from './pages/ManagersPage/ManagersPage.jsx';
 import { EmployeesPage } from './pages/EmployeesPage/EmployeesPage.jsx';
 import { PositionsPage } from './pages/PositionsPage/PositionsPage.jsx';
-import { CreateTestPage } from "./pages/CreateTestPage/CreateTestPage.jsx"
+import { CreateTestNewPage } from "./pages/CreateTestNewPage/CreateTestNewPage.jsx"
 import { CreateOpenTestPage } from "./pages/CreateOpenTestPage/CreateOpenTestPage.jsx"
 
 import { CreateLessonPage } from "./pages/CreateLessonPage/CreateLessonPage.jsx"
@@ -24,8 +24,6 @@ import { ConfigProvider } from 'antd';
 // import { extendTheme } from '@chakra-ui/react'
 
 function App() {
-  
-
   return (
     <Provider store={store}>
       <ConfigProvider theme={{
@@ -51,9 +49,9 @@ function App() {
               <Route path="courses">
                 <Route index element={<CoursesPage />} />
                 <Route path=":courseId" element={<CourseDetailPage />} />
-                <Route path=":courseId/tests/create_test" element={<CreateTestPage />} />
-                <Route path=":courseId/tests/:testId" element={<CreateTestPage />} />
-                <Route path=":courseId/tests/create_open_test" element={<CreateOpenTestPage />} />
+                <Route path=":courseId/tests/create_test" element={<CreateTestNewPage typeTest={true} />} />
+                <Route path=":courseId/tests/:testId" element={<CreateTestNewPage/>} />
+                <Route path=":courseId/tests/create_open_test" element={<CreateTestNewPage typeTest={false} />} />
 
                 <Route path=":courseId/lessons/create_lesson" element={<CreateLessonPage />} />
                 <Route path=":courseId/lessons/:lessonId" element={<CreateLessonPage />} />
