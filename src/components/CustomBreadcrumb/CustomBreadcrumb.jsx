@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import { MoveRight } from "lucide-react";
-import styles from "./CustomBreadcrumb.module.scss"; // Создадим отдельный файл стилей
-
+import styles from "./CustomBreadcrumb.module.scss";
 
 export const CustomBreadcrumb = ({ items, className = "" }) => {
   return (
