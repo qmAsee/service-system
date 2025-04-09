@@ -214,7 +214,6 @@ export const CreateLessonPage = () => {
 
   const handleDeleteLesson = () => {
     const course = courses.find((course) => course.id === courseId);
-    const lesson = course.lessons.find((lesson) => lesson.id === lessonId);
 
     const updatedLessons = course.lessons.filter((l) => l.id !== lessonId)
 
@@ -223,7 +222,6 @@ export const CreateLessonPage = () => {
       lessons: updatedLessons,
     }
 
-    console.log(updatedLessons)
     dispatch(updateCourse(updatedCourse));
     navigate(-1)
   }

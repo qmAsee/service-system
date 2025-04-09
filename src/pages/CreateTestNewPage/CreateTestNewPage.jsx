@@ -36,6 +36,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
   const [questionToDelete, setQuestionToDelete] = useState(null);
   const [isNewCourse, setIsNewCourse] = useState(false);
   const [isNewTest, setIsNewTest] = useState(!testId);
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false)
 
   // Начальное состояние вопроса в зависимости от типа теста
   const getInitialQuestionState = useCallback(() => {
@@ -231,15 +232,29 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
     navigate(`/courses/${courseId}`);
   }, [courses, courseId, test, isNewTest, testId, dispatch, navigate]);
 
-  const deleteTest = () => {
-    const currentCourse = courses.find(c => c.id === courseId);
+  // const deleteTest = () => {
+  //   const currentCourse = courses.find(c => c.id === courseId);
+  //   const updatedCourse = {
+  //     ...currentCourse,
+  //     tests: currentCourse.tests?.filter(t => t.id !== testId) || []
+  //   };
+  //   dispatch(updateCourse(updatedCourse));
+  //   alert('Тест успешно удален');
+  //   navigate(`/courses/${courseId}`);
+  // }
+
+  const handleDeleteTest = () => {
+    const course = courses.find((course) => course.id === courseId);
+    
+    const updatedTests = course.tests.filter((t) => t.id !== testId)
+
     const updatedCourse = {
-      ...currentCourse,
-      tests: currentCourse.tests?.filter(t => t.id !== testId) || []
-    };
+      ...course,
+      tests: updatedTests,
+    }
+
     dispatch(updateCourse(updatedCourse));
-    alert('Тест успешно удален');
-    navigate(`/courses/${courseId}`);
+    navigate(-1)
   }
   
   return (
@@ -280,6 +295,20 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
         <p>Вы уверены, что хотите удалить этот вопрос?</p>
       </Modal>
 
+      <Modal
+        open={isDeleteModalOpened}
+        onCancel={() => setIsDeleteModalOpened(false)}
+        okText="Удалить"
+        cancelText="Отмена"
+        onOk={handleDeleteTest}
+        okButtonProps={{
+          type: "primary",
+          danger: true,
+        }}
+      >
+        <span className={styles.delete_test_text}>Вы уверены, что хотите удалить тест?</span>
+      </Modal>
+
       <section className={styles.create_test}>
         <div className={styles.create_test_head_container}>
           <div className={styles.create_test_head}>
@@ -295,7 +324,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
                 {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
               </Button>
               {!isNewTest && (
-                <Button type='primary' danger onClick={deleteTest}>
+                <Button type='primary' danger onClick={() => setIsDeleteModalOpened(true)}>
                   Удалить тест
                 </Button>
               )}
