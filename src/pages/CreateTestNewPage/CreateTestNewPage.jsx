@@ -46,7 +46,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
           id: Date.now(),
           image: null,
           question: '',
-          totalTime: 30,
+          totalTime: 0,
           options: [
             { id: 1, text: '', isCorrect: false },
             { id: 2, text: '', isCorrect: false }
@@ -60,7 +60,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
           id: Date.now(),
           image: null,
           question: '',
-          totalTime: 30,
+          totalTime: 0,
           type: 'open',
         };
   }, [isTypeTest]);
@@ -104,6 +104,9 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
   }, []);
 
   const openAddQuestionPopup = () => {
+    window.dispatchEvent(new CustomEvent('popupStateChange', {
+      detail: { isOpen: true }
+    }));
     resetQuestionState();
     setEditingQuestionId(null);
     setIsPopupOpen(true);
@@ -191,6 +194,9 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
   };
 
   const closePopup = () => {
+    window.dispatchEvent(new CustomEvent('popupStateChange', {
+      detail: { isOpen: false }
+    }));
     setIsPopupOpen(false);
     resetQuestionState();
     setEditingQuestionId(null);
@@ -224,7 +230,18 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
     alert(isNewTest ? 'Тест успешно создан' : 'Тест успешно обновлен');
     navigate(`/courses/${courseId}`);
   }, [courses, courseId, test, isNewTest, testId, dispatch, navigate]);
-  console.log(test)
+
+  const deleteTest = () => {
+    const currentCourse = courses.find(c => c.id === courseId);
+    const updatedCourse = {
+      ...currentCourse,
+      tests: currentCourse.tests?.filter(t => t.id !== testId) || []
+    };
+    dispatch(updateCourse(updatedCourse));
+    alert('Тест успешно удален');
+    navigate(`/courses/${courseId}`);
+  }
+  
   return (
     <>
 
@@ -273,9 +290,16 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
               toggleIsPublished={handlePublishChange}
               isPublished={test.isPublished}
             />
-            <Button type='primary' onClick={handleSubmitTest}>
-              {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
-            </Button>
+            <div className={styles.create_test_head_btn}>
+              <Button type='primary' onClick={handleSubmitTest}>
+                {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
+              </Button>
+              {!isNewTest && (
+                <Button type='primary' danger onClick={deleteTest}>
+                  Удалить тест
+                </Button>
+              )}
+            </div>
           </div>
           <Input
             value={test.description}
@@ -303,12 +327,12 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
                 onChange={() => setShowCorrectAnswers(!showCorrectAnswers)}
                 className="hidden"
               />
-              <div className={`w-5 h-5 rounded flex items-center justify-center 
-                ${showCorrectAnswers ? 'bg-blue-500' : 'bg-gray-300'}`}
-              >
-                {showCorrectAnswers && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
-              </div>
-              <label htmlFor="showCorrectAnswers">
+              <label htmlFor="showCorrectAnswers" className={`flex items-center`}>
+                <div className={`w-5 h-5 rounded flex items-center justify-center 
+                  ${showCorrectAnswers ? 'bg-blue-500' : 'bg-gray-300'}`}
+                >
+                  {showCorrectAnswers && <Check className="w-4 h-4 text-white" strokeWidth={3} />}
+                </div>
                 Показывать тестируемому верные ответы
               </label>
             </div>
