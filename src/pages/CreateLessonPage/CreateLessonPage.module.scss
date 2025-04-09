@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 20px;
 
+
   .create_lesson_head {
     position: sticky;
     top: 83px;
@@ -14,6 +15,11 @@
     z-index: 2;
     background-color: #fff;
     border-bottom: 1px solid #e9ecef;
+  }
+
+  .buttons_box {
+    display: flex;
+    gap: 7px;
   }
 
   .create_lesson_container {
@@ -177,3 +183,12 @@
     }
   }
 }
+
+.delete_lesson_text {
+  font-size: 18px;
+}
+
+.ant-modal-footer {
+  margin-top: 200px;
+}
+

@@ -6,7 +6,7 @@ import { CreateAttachImg } from '../../components/CreateAttachImg/CreateAttachIm
 import styles from './CreateLessonPage.module.scss';
 import { MonitorPlay, Youtube, Camera, Mic, Type, AlignJustify, ArrowUp, ArrowDown, Trash2, MoveRight} from "lucide-react";
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Input } from "antd";
+import { Button, Input, Modal } from "antd";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { updateCourse } from '@/store/slices/courseSlice';
@@ -20,6 +20,7 @@ export const CreateLessonPage = () => {
   const [isNewCourse, setIsNewCourse] = useState(false);
   const [showContentMenu, setShowContentMenu] = useState(false);
   const [isNewLesson, setIsNewLesson] = useState(!lessonId);
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false)
   const [lesson, setLesson] = useState({
     id: `lesson_${Date.now()}`,
     type: "lesson",
@@ -211,6 +212,22 @@ export const CreateLessonPage = () => {
     navigate(-1);
   };
 
+  const handleDeleteLesson = () => {
+    const course = courses.find((course) => course.id === courseId);
+    const lesson = course.lessons.find((lesson) => lesson.id === lessonId);
+
+    const updatedLessons = course.lessons.filter((l) => l.id !== lessonId)
+
+    const updatedCourse = {
+      ...course,
+      lessons: updatedLessons,
+    }
+
+    console.log(updatedLessons)
+    dispatch(updateCourse(updatedCourse));
+    navigate(-1)
+  }
+
   return (
     <>
       <CustomBreadcrumb
@@ -233,8 +250,11 @@ export const CreateLessonPage = () => {
             toggleIsPublished={toggleIsPublished}
             isPublished={lesson.isPublished}
           />
-          <Button type='primary' onClick={handleSubmitLesson}>{isNewLesson ? 'Добавить урок' : 'Сохранить изменения'}</Button>
-        </div>
+          <div className={styles.buttons_box}>
+            <Button type='primary' onClick={handleSubmitLesson}>{isNewLesson ? 'Добавить урок' : 'Сохранить изменения'}</Button>
+            <Button type="primary" onClick={() => setIsDeleteModalOpened(!isDeleteModalOpened)} danger>Удалить урок</Button>
+          </div>
+          </div>
         <div className={styles.create_lesson_container}>
           <div className={styles.create_lesson_content}>
             <h2>Содержание урока</h2>
@@ -388,6 +408,19 @@ export const CreateLessonPage = () => {
           </div>
         </div>
       </section>
+      <Modal
+        open={isDeleteModalOpened}
+        onCancel={() => setIsDeleteModalOpened(false)}
+        okText="Удалить"
+        cancelText="Отмена"
+        onOk={handleDeleteLesson}
+        okButtonProps={{
+          type: "primary",
+          danger: true,
+        }}
+      >
+        <span className={styles.delete_lesson_text}>Вы уверены, что хотите удалить урок?</span>
+      </Modal>
     </>
   );
 };
