@@ -182,7 +182,7 @@ const CourseDetailPage = () => {
         items={[
           { title: <Link to="/dashboard">Главная</Link> },
           { title: <Link to={`/courses`}>Учебные курсы</Link>, },
-          { title: isNewCourse ? 'Создание курса' : `Редактирование курса: ${course.title}` }
+          { title: isNewCourse ? 'Создание курса' : `Курс: ${course.title}` }
         ]}
         separator={<MoveRight size={14} />} />
       <header className={styles.header}>
