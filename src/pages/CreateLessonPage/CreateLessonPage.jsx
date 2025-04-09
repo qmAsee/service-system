@@ -218,10 +218,10 @@ export const CreateLessonPage = () => {
           {title: <Link to="/dashboard">Главная</Link>},
           {title: <Link to="/courses">Учебные курсы</Link>},
           { 
-            title: !isNewCourse ? 'Создание курса' : `Редактирование курса: ${isNewCourse.title || ''}`,
+            title: !isNewCourse ? 'Создание курса' : `Курс: ${isNewCourse.title || ''}`,
             path: `/courses/${courseId}`
           },
-          {title: isNewLesson ? 'Создание урока' : `Редактирование урока: ${lesson.title}`}
+          {title: isNewLesson ? 'Создание урока' : `Урок: ${lesson.title}`}
         ]}
         separator={<MoveRight size={14} />}/>
       <section className={styles.create_lesson}>

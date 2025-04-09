@@ -233,10 +233,10 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
           { title: <Link to="/dashboard">Главная</Link> },
           { title: <Link to="/courses">Учебные курсы</Link> },
           { 
-            title: !isNewCourse ? 'Создание курса' : `Редактирование курса: ${isNewCourse.title || ''}`,
+            title: !isNewCourse ? 'Создание курса' : `Курс: ${isNewCourse.title || ''}`,
             path: `/courses/${courseId}`
           },
-          { title: isNewTest ? 'Создание теста' : `Редактирование теста: ${test.title}` }
+          { title: isNewTest ? 'Создание теста' : `Тест: ${test.title}` }
         ]}
         separator={<MoveRight size={14} />}
       />
