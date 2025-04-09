@@ -34,6 +34,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
   const [editingQuestionId, setEditingQuestionId] = useState(null);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState(null);
+  const [isNewCourse, setIsNewCourse] = useState(false);
   const [isNewTest, setIsNewTest] = useState(!testId);
 
   // Начальное состояние вопроса в зависимости от типа теста
@@ -71,6 +72,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
   useEffect(() => {
     if (testId) {
       const currentCourse = courses.find(c => c.id === courseId);
+      setIsNewCourse(currentCourse);
       if (currentCourse) {
         const existingTest = currentCourse.tests?.find(t => t.id === testId);
         if (existingTest) {
@@ -222,15 +224,19 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
     alert(isNewTest ? 'Тест успешно создан' : 'Тест успешно обновлен');
     navigate(`/courses/${courseId}`);
   }, [courses, courseId, test, isNewTest, testId, dispatch, navigate]);
-
+  console.log(test)
   return (
     <>
+
       <CustomBreadcrumb
         items={[
           { title: <Link to="/dashboard">Главная</Link> },
           { title: <Link to="/courses">Учебные курсы</Link> },
-          { title: <Link to={`/courses/${courseId}`}>Редактирование курса</Link> },
-          { title: isNewTest ? 'Создание теста' : 'Редактирование теста' }
+          { 
+            title: !isNewCourse ? 'Создание курса' : `Редактирование курса: ${isNewCourse.title || ''}`,
+            path: `/courses/${courseId}`
+          },
+          { title: isNewTest ? 'Создание теста' : `Редактирование теста: ${test.title}` }
         ]}
         separator={<MoveRight size={14} />}
       />

@@ -15,9 +15,9 @@ export const CreateLessonPage = () => {
   const dispatch = useDispatch()
   const courses = useSelector(state => state.courses.courses);
   const { courseId, lessonId } = useParams();
-  console.log(lessonId)
   const navigate = useNavigate();
 
+  const [isNewCourse, setIsNewCourse] = useState(false);
   const [showContentMenu, setShowContentMenu] = useState(false);
   const [isNewLesson, setIsNewLesson] = useState(!lessonId);
   const [lesson, setLesson] = useState({
@@ -35,12 +35,15 @@ export const CreateLessonPage = () => {
       }
     ]
   });
+
   const fileImageInputRef = useRef(null);
   const fileVideoInputRef = useRef(null);
   const [activeBlockId, setActiveBlockId] = useState(lesson.blocks[0].id);
 
   useEffect(() => {
     const course = courses.find((c) => c.id === courseId);
+   
+    setIsNewCourse(course);
     if (!course) return;
 
     if (lessonId) {
@@ -214,8 +217,11 @@ export const CreateLessonPage = () => {
         items={[
           {title: <Link to="/dashboard">Главная</Link>},
           {title: <Link to="/courses">Учебные курсы</Link>},
-          {title: <Link to={`/courses/${courseId}`}>Редактирование курса</Link>},
-          {title: 'Создание урока',}
+          { 
+            title: !isNewCourse ? 'Создание курса' : `Редактирование курса: ${isNewCourse.title || ''}`,
+            path: `/courses/${courseId}`
+          },
+          {title: isNewLesson ? 'Создание урока' : `Редактирование урока: ${lesson.title}`}
         ]}
         separator={<MoveRight size={14} />}/>
       <section className={styles.create_lesson}>
