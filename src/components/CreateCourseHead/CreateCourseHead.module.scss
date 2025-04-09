@@ -34,12 +34,30 @@
     }
   }
 
+  // .create_test_settings_title {
+  //   outline: none;
+  //   font-size: 28px;
+  //   font-weight: 600;
+  //   color: rgb(165, 163, 163);
+  // }
+
   .create_test_settings_title {
-    outline: none;
-    font-size: 28px;
-    font-weight: 600;
-    color: rgb(165, 163, 163);
-  }
+    font-size: 30px;
+    font-weight: bold;
+    border: 1px solid transparent;
+    padding: 10px 10px 10px 5px;
+    box-sizing: border-box;
+
+    &:hover {
+        box-shadow: none;
+        border: 1px solid #dbdbdb;
+    }
+
+    &:focus {
+        box-shadow: none;
+        border: 1px solid #a0a0a0;
+    }
+}
 
   .create_test_settings_switch {
     display: flex;

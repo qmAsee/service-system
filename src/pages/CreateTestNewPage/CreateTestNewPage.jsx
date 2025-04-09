@@ -271,10 +271,11 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
               {isNewTest ? 'Добавить тест' : 'Сохранить изменения'}
             </Button>
           </div>
-          <TextArea
+          <Input
             value={test.description}
             onChange={handleDescriptionChange}
             placeholder="Добавьте описание теста"
+            className={styles.test_description}
           />
         </div>
 
