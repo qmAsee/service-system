@@ -31,6 +31,11 @@
     justify-content: space-between;
     align-items: center;
     gap: 30px;
+
+    .create_test_head_btn {
+      display: flex;
+      gap: 10px;
+    }
   }
 
   .create_test_add_question {
@@ -50,9 +55,10 @@
     }
     
     .create_test_add_question_show {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      label {
+        cursor: pointer;
+        gap: 10px;
+      }
     }
   }
 }

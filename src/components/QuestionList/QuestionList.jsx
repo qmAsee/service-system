@@ -19,7 +19,10 @@ export const QuestionList = ({
 							<h3>Вопрос {index + 1}: {question.question}</h3>
 							<div className={styles.question_actions}>
 								<button
-									onClick={() => onEdit(question.id)}
+									onClick={() => {
+										onAddQuestion();
+										onEdit(question.id); 
+									}}
 									aria-label="Редактировать"
 								>
 									<Edit size={16} />

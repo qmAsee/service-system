@@ -87,6 +87,7 @@ export const QuestionPopup = ({
   };
 
   const handleSave = (addAnother = false) => {
+    onClose();
     onSave(question, isEditing, addAnother);
   };
 
