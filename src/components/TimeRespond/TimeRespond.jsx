@@ -20,7 +20,7 @@ export const TimeRespond = ({ onTimeChange }) => {
   useEffect(() => {
     const totalSeconds = minutes * 60 + seconds;
     onTimeChange(totalSeconds);
-  }, [minutes, seconds, onTimeChange])
+  }, [minutes, seconds])
 
   return (
     <>
