@@ -16,7 +16,7 @@ export const TimeRespond = ({ onTimeChange }) => {
   };
 
   const formatTime = (value) => value.toString().padStart(2, '0');
-  console.log(minutes, seconds)
+  // console.log(minutes, seconds)
   useEffect(() => {
     const totalSeconds = minutes * 60 + seconds;
     onTimeChange(totalSeconds);

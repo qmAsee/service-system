@@ -21,7 +21,7 @@ export const QuestionList = ({
 								<button
 									onClick={() => {
 										onAddQuestion();
-										onEdit(question.id); 
+										onEdit(question.id);
 									}}
 									aria-label="Редактировать"
 								>
@@ -60,7 +60,7 @@ export const QuestionList = ({
 								<h4>Варианты ответов:</h4>
 								{question.options?.map((option, i) => (
 									<div
-										key={option.id}
+										key={i}
 										className={`${styles.answer} ${option.isCorrect && showCorrectAnswers ? styles.correct : ''
 											}`}
 									>

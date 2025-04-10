@@ -70,11 +70,38 @@
                     width: 300px;
                 }
 
+                // .course_textarea {
+                //     width: 100%;
+                //     min-height: 50%;
+                //     border: 1px solid rgb(182, 182, 182);
+                //     padding: 8px;
+                // }
+
                 .course_textarea {
-                    width: 100%;
-                    min-height: 50%;
-                    border: 1px solid rgb(182, 182, 182);
-                    padding: 8px;
+                    font-size: 14px;
+                    border: 1px solid transparent;
+                    padding: 10px 10px 10px 5px;
+                    box-sizing: border-box;
+                    min-height: 200px;
+                    max-height: 100%;
+
+                    &::-webkit-resizer {
+                        display:none;
+                    }
+
+                    &:focus::-webkit-resizer {
+                        display: block;
+                    }
+        
+                    &:hover {
+                        box-shadow: none;
+                        border: 1px solid #dbdbdb;
+                    }
+        
+                    &:focus {
+                        box-shadow: none;
+                        border: 1px solid #a0a0a0;
+                    }
                 }
 
                 .course_difficulty {

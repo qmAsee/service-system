@@ -1,79 +1,113 @@
 .courses_page {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .courses_head {
+    display: flex;
+    align-items: center;
+    padding: 30px 30px 0 30px;
+    justify-content: space-between;
+
+    .courses_title {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .interactives_container {
+      display: flex;
+      gap: 15px;
+
+      .search_input {
+        // border: none;
+        border: 1px solid rgb(196, 196, 196);
+        box-shadow: none;
+        outline: none;
+
+        &::placeholder:hover {
+          box-shadow: none;
+          outline: none;
+          border: none;
+          color: red
+        }
+
+        &:hover {
+          box-shadow: none;
+          border: 1px solid #dbdbdb;
+        }
+
+        &:focus {
+          box-shadow: none;
+          border: 1px solid #a0a0a0;
+          outline: 1px solid red;
+        }
+
+        .search_prefix {
+          width: 17px;
+          color: rgb(163, 163, 163);
+        }
+      }
+    }
+  }
+
+  .courses_cols_names {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 0 100px 0 20px;
+
+    .courses_col_name {
+      font-size: 12px;
+    }
+  }
+
+  .courses_wrapper {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgb(231, 231, 231);
+    border-top: 1px solid rgb(201, 201, 201);
 
-    .courses_head {
-        display: flex;
-        align-items: center;
-        padding: 30px 30px 0 30px;
-        justify-content: space-between;
-
-        .courses_title {
-            font-size: 32px;
-            font-weight: bold;
-            padding: 0px 30px 0 30px;
-        }
+    .course {
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+      background-color: white;
+      border-bottom: 1px solid rgb(201, 201, 201);
+      cursor: pointer;
     }
 
-    .courses_cols_names {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
-        margin-bottom: 15px;
-        padding: 0 100px 0 20px;
-
-        .courses_col_name {
-            font-size: 12px;
-        }
+    .course:hover {
+      background-color: rgb(247, 247, 247);
+      transition: background-color 0.1s ease-in-out;
     }
 
-    .courses_wrapper {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-        background-color: rgb(231, 231, 231);
-        border-top: 1px solid rgb(201, 201, 201);
-
-        .course {
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: white;
-            border-bottom: 1px solid rgb(201, 201, 201);
-            cursor: pointer;
-        }
-
-        .course:hover {
-            background-color: rgb(247, 247, 247);
-            transition: background-color 0.1s ease-in-out;
-        }
-
-        .course_level_title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .course_info_wrapper {
-            display: flex;
-            flex-direction: column;
-            max-width: 30%;
-            gap: 5px;
-
-            .course_description {
-                font-size: 12px;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%; /* Ограничиваем ширину */
-                word-wrap: break-word;
-                color: rgb(110, 110, 110);
-            }
-        }
+    .course_level_title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
     }
+
+    .course_info_wrapper {
+      display: flex;
+      flex-direction: column;
+      max-width: 30%;
+      gap: 5px;
+
+      .course_description {
+        font-size: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%; /* Ограничиваем ширину */
+        word-wrap: break-word;
+        color: rgb(110, 110, 110);
+      }
+    }
+  }
 }

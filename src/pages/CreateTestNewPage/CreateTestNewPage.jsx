@@ -228,7 +228,7 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
     };
 
     dispatch(updateCourse(updatedCourse));
-    alert(isNewTest ? 'Тест успешно создан' : 'Тест успешно обновлен');
+    // alert(isNewTest ? 'Тест успешно создан' : 'Тест успешно обновлен');
     navigate(`/courses/${courseId}`);
   }, [courses, courseId, test, isNewTest, testId, dispatch, navigate]);
 
@@ -291,6 +291,9 @@ export const CreateTestNewPage = ({ typeTest: initialTypeTest }) => {
         onCancel={() => setIsConfirmModalVisible(false)}
         okText="Удалить"
         cancelText="Отмена"
+        okButtonProps={{
+          danger: true,
+        }}
       >
         <p>Вы уверены, что хотите удалить этот вопрос?</p>
       </Modal>
